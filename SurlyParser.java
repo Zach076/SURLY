@@ -1,5 +1,5 @@
 /*
-  Stephen Hyde-Donohue
+  Stephen Hyde-Donohue and Zachary Richardson
   SURLY 1
   WWU CSCI 330
   Fall 2017
@@ -8,44 +8,50 @@
 
 import java.util.Scanner;
 import java.io.*;
+import java.util.LinkedList;
 
 public class SurlyParser {
 
-  public void parse (String filename) {
+  private static SurlyParser parser = new SurlyParser();
+  private SurlyParser() {
+  }
+
+  /* Parses text file for SURLY commands of the format COMMANDNAME parameters.
+   * Checks each command against list of known commands. If found the command is
+   * run. If not the the user is notified.
+   */
+  public void parse(String filename, SurlyDatabase database) {
     File file = new File(filename);
+    LinkedList<ICommand> commands = SurlyDatabase.getCommands();
     try {
       Scanner scan = new Scanner(file);
       String command;
+      boolean ran;
       while(scan.hasNextLine()) {
         command = scan.next();
-
-        /* 
-          Simple not easily extendable version. Going to implement an abstract command
-          class and have the parser to iterate through commands find a match and then run.
-        */
-
-        if ("RELATION".equals(command)) {
-          //handle insert commands
-          //System.out.println("RELATION COMMAND");
+        int i = 0;
+        ran = false;
+        while (commands.get(i) != null) {
+          // Check for known commands
+          if (commands.get(i).getName().equals(command)) {
+            commands.get(i).run(scan.next());
+            ran = true;
+          }
+          i++;
         }
-        else if ("INSERT".equals(command)) {
-          //handle insert commands
-          //System.out.println("INSERT COMMAND");
-        }
-        else if ("PRINT".equals(command)) {
-          //handle insert commands
-          //System.out.println("PRINT COMMAND");
-        }
-        else {
+        if (!ran) {
           System.out.println("SURLY doesn't understand the command \'" + command + '\'');
         }
         scan.nextLine();
-
       }
     }
     catch(FileNotFoundException exception) {
       System.out.println("The file " + file.getPath() + " doesn't exist.");
     }
+  }
+
+  public static SurlyParser getInstance() {
+    return parser;
   }
 
 }
