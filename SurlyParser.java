@@ -29,20 +29,20 @@ public class SurlyParser {
       boolean ran;
       while(scan.hasNextLine()) {
         command = scan.next();
-        int i = 0;
         ran = false;
-        while (commands.get(i) != null) {
+        for (int i  = 0; i < commands.size();i++) {
           // Check for known commands
           if (commands.get(i).getName().equals(command)) {
-            commands.get(i).run(scan.next());
+            commands.get(i).run(scan.nextLine());
             ran = true;
           }
-          i++;
         }
+        // If command is unknown let the user know
         if (!ran) {
           System.out.println("SURLY doesn't understand the command \'" + command + '\'');
+          scan.nextLine();
         }
-        scan.nextLine();
+
       }
     }
     catch(FileNotFoundException exception) {

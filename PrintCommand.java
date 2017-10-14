@@ -5,9 +5,10 @@
   Fall 2017
   Print command for surly database
 */
+import java.util.Scanner;
 
 public class PrintCommand extends BaseCommand {
-  String name = "Print";
+  String name = "PRINT";
   public void run(String params) {
 
   }

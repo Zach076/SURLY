@@ -5,9 +5,10 @@
   Fall 2017
   Insert command for surly database
 */
+import java.util.Scanner;
 
 public class InsertCommand extends BaseCommand {
-  private String name = "Insert";
+  private String name = "INSERT";
 
   public void run(String params) {
 

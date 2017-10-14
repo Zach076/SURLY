@@ -13,14 +13,11 @@ public class SurlyDatabase {
   private static SurlyDatabase database = new SurlyDatabase();
   private static LinkedList<ICommand> commands = new LinkedList<ICommand>();
   private LinkedList<Tuple> relations = new LinkedList<Tuple>();
-  private RelationCommand relation = new RelationCommand();
-  private InsertCommand insert = new InsertCommand();
-  private PrintCommand print = new PrintCommand();
+  private static RelationCommand relation = new RelationCommand();
+  private static InsertCommand insert = new InsertCommand();
+  private static PrintCommand print = new PrintCommand();
 
   private SurlyDatabase() {
-    commands.add(relation);
-    commands.add(insert);
-    commands.add(print);
   }
 
   public static SurlyDatabase getInstance() {
@@ -28,11 +25,21 @@ public class SurlyDatabase {
   }
 
   public static LinkedList<ICommand> getCommands() {
+    if (commands.size() == 0) {
+      addCommands();
+    }
     return commands;
+  }
+
+  public static void addCommands() {
+    commands.add(relation);
+    commands.add(insert);
+    commands.add(print);
   }
 
 
   public void insert() {
+
   }
 
 	public void print() {
