@@ -28,6 +28,10 @@ public class RelationCommand extends BaseCommand {
       relations.add(currRelation);
     }
     else {
+      /* Specificatoin says if there is an existing relation to DESTROY the old
+       * one but we don't have that command so we'll have to decide what we want
+       * to do
+       */
       currRelation = relations.get(index);
     }
 
@@ -37,7 +41,6 @@ public class RelationCommand extends BaseCommand {
       maxlen = Integer.parseInt(tokens[i]);
 
       currRelation.insert(tupleName, datatype, maxlen);
-
     }
   }
   public String getName() {

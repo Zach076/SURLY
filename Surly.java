@@ -10,7 +10,12 @@ public class Surly {
   public static void main(String[] args) {
     SurlyDatabase database = SurlyDatabase.getInstance();
     SurlyParser parser = SurlyParser.getInstance();
-    parser.parse(args[0], database);
+    try {
+      parser.parse(args[0], database);
+    }
+    catch(ArrayIndexOutOfBoundsException exception) {
+      System.out.println("SURLY takes one command line argument the name of the txt file");
+    }
   }
 
   // Intialize DBMS

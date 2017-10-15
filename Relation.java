@@ -20,7 +20,8 @@ public class Relation {
   public void insert(String tupleName, String datatype, int maxlen) {
     //System.out.println("In relation " + name);
     //System.out.println("Insert a tuple with name " + tupleName + " datatype " + datatype + " and a maxlen of " + maxlen);
-    
+    Tuple newtuple = new Tuple(tupleName, datatype, maxlen);
+    tuples.add(newtuple);
   }
 
 	public void print() {
