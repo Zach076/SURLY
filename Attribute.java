@@ -10,28 +10,13 @@ public class Attribute<V> {
 
   private V value;
   private String name;
-  private String datatype;
-  private int maxlen;
 
-  public Attribute (V value, String name, String datatype) {
+
+  public Attribute (V value) {
     this.value = value;
-    this.name = name;
-    this.datatype = datatype;
   }
 
   public V getValue() {
     return value;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getDatatype() {
-    return datatype;
-  }
-
-  public int getMaxlen() {
-    return maxlen;
   }
 }

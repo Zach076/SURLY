@@ -17,7 +17,10 @@ public class Relation {
     this.name = name;
   }
 
-  public void insert() {
+  public void insert(String tupleName, String datatype, int maxlen) {
+    //System.out.println("In relation " + name);
+    //System.out.println("Insert a tuple with name " + tupleName + " datatype " + datatype + " and a maxlen of " + maxlen);
+    
   }
 
 	public void print() {
@@ -25,6 +28,10 @@ public class Relation {
 
   public String getName() {
     return name;
+  }
+
+  public LinkedList<Tuple> getTuples() {
+    return tuples;
   }
 
 }

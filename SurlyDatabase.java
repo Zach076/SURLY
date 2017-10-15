@@ -12,7 +12,7 @@ public class SurlyDatabase {
 
   private static SurlyDatabase database = new SurlyDatabase();
   private static LinkedList<ICommand> commands = new LinkedList<ICommand>();
-  private LinkedList<Tuple> relations = new LinkedList<Tuple>();
+  private static LinkedList<Relation> relations = new LinkedList<Relation>();
   private static RelationCommand relation = new RelationCommand();
   private static InsertCommand insert = new InsertCommand();
   private static PrintCommand print = new PrintCommand();
@@ -29,6 +29,10 @@ public class SurlyDatabase {
       addCommands();
     }
     return commands;
+  }
+
+  public static LinkedList<Relation> getRelations() {
+    return relations;
   }
 
   public static void addCommands() {

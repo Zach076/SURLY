@@ -6,24 +6,39 @@
   Relation command for surly database
 */
 import java.util.Scanner;
+import java.util.LinkedList;
 
 public class RelationCommand extends BaseCommand {
-  SurlyDatabase database = SurlyDatabase.getInstance();
-  String name = "RELATION";
-  String tupleName;
-  String attributeName;
-  String datatype;
-  int len;
+  private static SurlyDatabase database = SurlyDatabase.getInstance();
+  private static LinkedList<Relation> relations = new LinkedList<Relation>();
+  private String name = "RELATION";
+  private String relationName;
+  private String tupleName;
+  private String datatype;
+  private int maxlen;
 
   public void run(String params) {
+    relations = database.getRelations();
     String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
-    tupleName = tokens[0];
-    for (int i = 1; i < tokens.length; i++) {
-      attributeName = tokens[i++];
-      datatype = tokens[i++];
-      len = Integer.parseInt(tokens[i]);
+    relationName = tokens[0];
+
+    Relation currRelation = new Relation(relationName);
+    int index = relations.indexOf(currRelation);
+    if (index == -1) {
+      relations.add(currRelation);
+    }
+    else {
+      currRelation = relations.get(index);
     }
 
+    for (int i = 1; i < tokens.length; i++) {
+      tupleName = tokens[i++];
+      datatype = tokens[i++];
+      maxlen = Integer.parseInt(tokens[i]);
+
+      currRelation.insert(tupleName, datatype, maxlen);
+
+    }
   }
   public String getName() {
     return name;

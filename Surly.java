@@ -10,7 +10,7 @@ public class Surly {
   public static void main(String[] args) {
     SurlyDatabase database = SurlyDatabase.getInstance();
     SurlyParser parser = SurlyParser.getInstance();
-    parser.parse(args[1], database);
+    parser.parse(args[0], database);
   }
 
   // Intialize DBMS

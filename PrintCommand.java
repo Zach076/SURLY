@@ -8,7 +8,7 @@
 import java.util.Scanner;
 
 public class PrintCommand extends BaseCommand {
-  String name = "PRINT";
+  private String name = "PRINT";
   public void run(String params) {
 
   }
