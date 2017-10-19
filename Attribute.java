@@ -6,17 +6,15 @@
   Attribute class for SURLY
 */
 
-public class Attribute<V> {
+public class Attribute {
 
-  private V value;
-  private String name;
+  private String value;
 
-
-  public Attribute (V value) {
+  public Attribute (String value) {
     this.value = value;
   }
 
-  public V getValue() {
+  public String getValue() {
     return value;
   }
 }

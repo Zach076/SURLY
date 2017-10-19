@@ -12,20 +12,19 @@ public class Relation {
 
   private String name;
   private LinkedList<Tuple> tuples = new LinkedList<Tuple>();
+  private LinkedList<DomainNode> domain = new LinkedList<DomainNode>();
+
 
   public Relation (String name) {
     this.name = name;
   }
 
-  public void insert(String tupleName, String datatype, int maxlen) {
+  public void addDomain(String domainName, String datatype, int maxlen) {
     //System.out.println("In relation " + name);
     //System.out.println("Insert a tuple with name " + tupleName + " datatype " + datatype + " and a maxlen of " + maxlen);
-    Tuple newtuple = new Tuple(tupleName, datatype, maxlen);
-    tuples.add(newtuple);
+    DomainNode newDomain = new DomainNode(domainName, datatype, maxlen);
+    domain.add(newDomain);
   }
-
-	public void print() {
-	}
 
   public String getName() {
     return name;
@@ -33,6 +32,10 @@ public class Relation {
 
   public LinkedList<Tuple> getTuples() {
     return tuples;
+  }
+
+  public LinkedList<DomainNode> getDomain() {
+    return domain;
   }
 
 }

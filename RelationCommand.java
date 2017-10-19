@@ -26,21 +26,20 @@ public class RelationCommand extends BaseCommand {
     int index = relations.indexOf(currRelation);
     if (index == -1) {
       relations.add(currRelation);
+      for (int i = 1; i < tokens.length; i++) {
+        tupleName = tokens[i++];
+        datatype = tokens[i++];
+        maxlen = Integer.parseInt(tokens[i]);
+
+        currRelation.addDomain(tupleName, datatype, maxlen);
+      }
     }
     else {
-      /* Specificatoin says if there is an existing relation to DESTROY the old
+      /* Specification says if there is an existing relation to DESTROY the old
        * one but we don't have that command so we'll have to decide what we want
        * to do
        */
-      currRelation = relations.get(index);
-    }
-
-    for (int i = 1; i < tokens.length; i++) {
-      tupleName = tokens[i++];
-      datatype = tokens[i++];
-      maxlen = Integer.parseInt(tokens[i]);
-
-      currRelation.insert(tupleName, datatype, maxlen);
+      //currRelation = relations.get(index);
     }
   }
   public String getName() {

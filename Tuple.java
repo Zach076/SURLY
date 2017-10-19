@@ -9,33 +9,5 @@
 import java.util.LinkedList;
 
 public class Tuple {
-
-  private String name;
-  private String datatype;
-  private int maxlen;
   private LinkedList<Attribute> attributes = new LinkedList<Attribute>();
-
-  public Tuple (String name, String datatype, int maxlen) {
-    this.name = name;
-    this.datatype = datatype;
-    this.maxlen = maxlen;
-  }
-
-  public void insert() {
-  }
-
-	public void print() {
-	}
-
-  public String getName() {
-    return name;
-  }
-
-  public String getDatatype() {
-    return datatype;
-  }
-
-  public int getMaxlen() {
-    return maxlen;
-  }
 }
