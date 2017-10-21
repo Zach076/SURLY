@@ -38,4 +38,37 @@ public class Relation {
     return domain;
   }
 
+  private String formatMaxlens() {
+    String maxlen = "";
+    int length = domain.indexOf(domain.getLast());
+    int i = 0;
+    while (i < length) {
+      maxlen = maxlen + "%" + doman.get(i).getmaxlen() + "s";
+      i++;
+    }
+  }
+
+  public void print() {
+    String maxlen = "";
+    int tuplesLen = tuples.indexOf(tuples.getLast());
+    int domainLen = domain.indexOf(domain.getLast());
+    int x = 0;
+    int y = 0;
+    while(y < domainLen) {
+      maxlen = "%" + domain.get(y).getmaxlen() + "s";
+      System.out.print(String.format(maxlen + "%s", domain.get(y).getDomName(), "|"));
+      y++;
+    }
+    y = 0;
+    while(x < tuplesLen) {
+      while(y < domainLen) {
+        maxlen = "%" + domain.get(y).getmaxlen() + "s";
+        System.out.print(String.format(maxlen + "%s" , tuples.get(x).get(y).getValue() , "|" ));
+        y++;
+      }
+      System.out.println("");
+      x++;
+    }
+  }
+
 }
