@@ -21,7 +21,7 @@ public class Relation {
 
   public void addDomain(String domainName, String datatype, int maxlen) {
     //System.out.println("In relation " + name);
-    //System.out.println("Insert a tuple with name " + tupleName + " datatype " + datatype + " and a maxlen of " + maxlen);
+    //System.out.println("Insert a tuple with name " + domainName + " datatype " + datatype + " and a maxlen of " + maxlen);
     DomainNode newDomain = new DomainNode(domainName, datatype, maxlen);
     domain.add(newDomain);
   }
