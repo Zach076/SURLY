@@ -16,7 +16,8 @@ CLASSES = \
 	BaseCommand.java \
 	RelationCommand.java \
 	InsertCommand.java \
-	PrintCommand.java 
+	DomainNode.java \
+	PrintCommand.java
 
 MAIN = Surly
 default: classes
