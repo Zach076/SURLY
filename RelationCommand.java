@@ -31,6 +31,7 @@ public class RelationCommand extends BaseCommand {
         datatype = tokens[i++];
         maxlen = Integer.parseInt(tokens[i]);
 
+        //currRelation.insertTuple();
         currRelation.addDomain(tupleName, datatype, maxlen);
       }
     }

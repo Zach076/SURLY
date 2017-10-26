@@ -39,8 +39,7 @@ public class Relation {
   }
 
   public void insertTuple() {
-    Tuple newtuple = new Tuple();
-    tuples.add(newtuple);
+    tuples.add(new Tuple());
   }
 
   private String formatMaxlens() {
@@ -56,8 +55,10 @@ public class Relation {
 
   public void print() {
     String maxlen = "";
-    int tuplesLen = tuples.indexOf(tuples.getLast());
-    int domainLen = domain.indexOf(domain.getLast());
+    int tuplesLen = tuples.size();
+    int domainLen = domain.size();
+    Tuple currTuple;
+    Attribute currAttribute;
     int x = 0;
     int y = 0;
     while(y < domainLen) {
@@ -66,15 +67,29 @@ public class Relation {
       y++;
     }
     y = 0;
+    System.out.println();
     while(x < tuplesLen) {
+      currTuple = tuples.get(x);
+      //System.out.println("x = " + x);
       while(y < domainLen) {
-        maxlen = "%" + domain.get(y).getMaxLen() + "s";
-        System.out.print(String.format(maxlen + "%s" , tuples.get(x).getAttributes().get(y).getValue() , "|" ));
+        if (domain.get(y).getMaxLen() < domain.get(y).getName().length()) {
+          maxlen = "%" + domain.get(y).getName().length() + "s";
+        } else {
+          maxlen = "%" + domain.get(y).getMaxLen() + "s";
+        }
+        //System.out.print("x is " + x + " y is " + y + " ");
+        currAttribute = currTuple.getAttrib(y);
+
+        //System.out.println('*' + domain.get(y).getName() + '*');
+        System.out.print(String.format(maxlen + "%s" , currAttribute.getValue() , "|" ));
         y++;
       }
-      System.out.println("");
+      y = 0;
+      System.out.println();
       x++;
+
     }
+    System.out.println();
   }
 
 }

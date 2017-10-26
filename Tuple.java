@@ -14,4 +14,8 @@ public class Tuple {
   public LinkedList<Attribute> getAttributes() {
     return attributes;
   }
+
+  public Attribute getAttrib(int x) {
+    return (attributes.get(x));
+  }
 }
