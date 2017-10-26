@@ -48,9 +48,10 @@ public class Relation {
     int length = domain.indexOf(domain.getLast());
     int i = 0;
     while (i < length) {
-      maxlen = maxlen + "%" + domain.get(i).getmaxlen() + "s";
+      maxlen = maxlen + "%" + domain.get(i).getMaxLen() + "s";
       i++;
     }
+    return maxlen;
   }
 
   public void print() {
@@ -60,15 +61,15 @@ public class Relation {
     int x = 0;
     int y = 0;
     while(y < domainLen) {
-      maxlen = "%" + domain.get(y).getmaxlen() + "s";
-      System.out.print(String.format(maxlen + "%s", domain.get(y).getDomName(), "|"));
+      maxlen = "%" + domain.get(y).getMaxLen() + "s";
+      System.out.print(String.format(maxlen + "%s", domain.get(y).getName(), "|"));
       y++;
     }
     y = 0;
     while(x < tuplesLen) {
       while(y < domainLen) {
-        maxlen = "%" + domain.get(y).getmaxlen() + "s";
-        System.out.print(String.format(maxlen + "%s" , tuples.get(x).get(y).getValue() , "|" ));
+        maxlen = "%" + domain.get(y).getMaxLen() + "s";
+        System.out.print(String.format(maxlen + "%s" , tuples.get(x).getAttributes().get(y).getValue() , "|" ));
         y++;
       }
       System.out.println("");

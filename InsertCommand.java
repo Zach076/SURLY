@@ -6,6 +6,7 @@
   Insert command for surly database
 */
 import java.util.Scanner;
+import java.util.LinkedList;
 
 public class InsertCommand extends BaseCommand {
   private String name = "INSERT";
@@ -15,19 +16,21 @@ public class InsertCommand extends BaseCommand {
     String relationName = tokens[0];
 
     LinkedList<Relation> currDatabase = SurlyDatabase.getRelations();
-    int databaseLen = currDatabase.indexOf(currDatabase.getLast())
+    int databaseLen = currDatabase.indexOf(currDatabase.getLast());
     int iteratorVal = 0;
-    String currRelationName;
+    Relation currRelation;
     Tuple currRow;
 
-    while (iteratorVal < databaseLen) {
-      currRelationName = currDatabase.indexOf(iteratorVal).getRelName();
-      if (currRelationName = relationName) {
 
-        currRow = currDatabase.indexOf(iteratorVal).getLast();
-        Relation.insertTuple();
+    while (iteratorVal < databaseLen) {
+      currRelation = currDatabase.get(currDatabase.indexOf(iteratorVal));
+      if (currRelation.getName().equals(relationName)) {
+
+        currRow = currRelation.getTuples().getLast();
+        //currRelation.insertTuple();
         for (int x = 0; x < tokens.length; x++) {
-          currRow.insertAttrib(tokens[x]);
+          Attribute newattribute = new Attribute(tokens[x]);
+          currRow.getAttributes().add(newattribute);
         }
         iteratorVal = databaseLen;
       } else iteratorVal++;

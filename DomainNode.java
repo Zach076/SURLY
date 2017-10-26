@@ -27,7 +27,7 @@ public class DomainNode {
     return datatype;
   }
 
-  public int getMaxlen() {
+  public int getMaxLen() {
     return maxlen;
   }
 }
