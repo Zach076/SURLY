@@ -37,9 +37,10 @@ public class Relation {
   public LinkedList<DomainNode> getDomain() {
     return domain;
   }
-  
+
   public void insertTuple() {
-    tuples.add(Tuple());
+    Tuple newtuple = new Tuple();
+    tuples.add(newtuple);
   }
 
   private String formatMaxlens() {
@@ -47,7 +48,7 @@ public class Relation {
     int length = domain.indexOf(domain.getLast());
     int i = 0;
     while (i < length) {
-      maxlen = maxlen + "%" + doman.get(i).getmaxlen() + "s";
+      maxlen = maxlen + "%" + domain.get(i).getmaxlen() + "s";
       i++;
     }
   }
