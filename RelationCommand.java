@@ -22,25 +22,25 @@ public class RelationCommand extends BaseCommand {
     String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
     relationName = tokens[0];
 
-    Relation currRelation = new Relation(relationName);
-    int index = relations.indexOf(currRelation);
-    if (index == -1) {
+    boolean found = false;
+    for (int j = 0; j < relations.size(); j++) {
+      if (relations.get(j).getName().equals(relationName)) {
+        found = true;
+      }
+    }
+    if (!found) {
+      Relation currRelation = new Relation(relationName);
       relations.add(currRelation);
       for (int i = 1; i < tokens.length; i++) {
         tupleName = tokens[i++];
         datatype = tokens[i++];
         maxlen = Integer.parseInt(tokens[i]);
 
-        //currRelation.insertTuple();
         currRelation.addDomain(tupleName, datatype, maxlen);
       }
     }
     else {
-      /* Specification says if there is an existing relation to DESTROY the old
-       * one but we don't have that command so we'll have to decide what we want
-       * to do
-       */
-      //currRelation = relations.get(index);
+      System.out.println("The " + relationName + " relation already exists");
     }
   }
   public String getName() {

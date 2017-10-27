@@ -20,8 +20,6 @@ public class Relation {
   }
 
   public void addDomain(String domainName, String datatype, int maxlen) {
-    //System.out.println("In relation " + name);
-    //System.out.println("Insert a tuple with name " + tupleName + " datatype " + datatype + " and a maxlen of " + maxlen);
     DomainNode newDomain = new DomainNode(domainName, datatype, maxlen);
     domain.add(newDomain);
   }
@@ -70,17 +68,13 @@ public class Relation {
     System.out.println();
     while(x < tuplesLen) {
       currTuple = tuples.get(x);
-      //System.out.println("x = " + x);
       while(y < domainLen) {
         if (domain.get(y).getMaxLen() < domain.get(y).getName().length()) {
           maxlen = "%" + domain.get(y).getName().length() + "s";
         } else {
           maxlen = "%" + domain.get(y).getMaxLen() + "s";
         }
-        //System.out.print("x is " + x + " y is " + y + " ");
         currAttribute = currTuple.getAttrib(y);
-
-        //System.out.println('*' + domain.get(y).getName() + '*');
         System.out.print(String.format(maxlen + "%s" , currAttribute.getValue() , "|" ));
         y++;
       }

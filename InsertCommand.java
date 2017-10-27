@@ -12,40 +12,10 @@ public class InsertCommand extends BaseCommand {
   private String name = "INSERT";
 
   public void run(String params) {
-    String[] tokens  = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
+    String[] tokens  = params.trim().split("\\s|;");
+    quoteHandler(tokens);
+
     String relationName = tokens[0];
-
-    boolean foundQuote = false;
-    int startQuote = 0;
-    int endQuote = 0;
-
-    for (int j = 1; j < tokens.length; j++) {
-      if (tokens[j].charAt(0) == '\'' && foundQuote == false) {
-        foundQuote = true;
-        startQuote = j;
-      }
-      if (tokens[j].charAt(tokens[j].length() - 1) == '\'' && foundQuote == true) {
-        endQuote = j;
-
-      }
-    }
-    if (foundQuote) {
-      for (int k = startQuote + 1; k <= endQuote; k++) {
-        tokens[startQuote] += " " + tokens[k];
-      }
-      // System.out.println(tokens[startQuote]);
-      if (tokens.length > endQuote) {
-        for (int h = endQuote + 1; h < tokens.length; h++) {
-          tokens[startQuote + (h - endQuote)] = tokens[h];
-        }
-      }
-      tokens[startQuote] = tokens[startQuote].replaceAll("\'","");
-      //tokens
-    }
-
-
-    foundQuote = false;
-
 
     LinkedList<Relation> currDatabase = SurlyDatabase.getRelations();
     int databaseLen = currDatabase.size();
@@ -53,11 +23,9 @@ public class InsertCommand extends BaseCommand {
     Relation currRelation;
     Tuple currRow;
 
-
     while (iteratorVal < databaseLen) {
       currRelation = currDatabase.get(iteratorVal);
       if (currRelation.getName().equals(relationName)) {
-        //System.out.println(currRelation.getName());
 
         currRelation.insertTuple();
         currRow = currRelation.getTuples().getLast();
@@ -72,5 +40,32 @@ public class InsertCommand extends BaseCommand {
 
   public String getName() {
     return name;
+  }
+
+  private void quoteHandler (String[] tokens) {
+    boolean foundQuote = false;
+    int startQuote = 0;
+    int endQuote = 0;
+
+    for (int j = 1; j < tokens.length; j++) {
+      if (tokens[j].charAt(0) == '\'' && foundQuote == false) {
+        foundQuote = true;
+        startQuote = j;
+      }
+      if (tokens[j].charAt(tokens[j].length() - 1) == '\'' && foundQuote == true) {
+        endQuote = j;
+      }
+    }
+    if (foundQuote) {
+      for (int k = startQuote + 1; k <= endQuote; k++) {
+        tokens[startQuote] += " " + tokens[k];
+      }
+      if (tokens.length > endQuote) {
+        for (int h = endQuote + 1; h < tokens.length; h++) {
+          tokens[startQuote + (h - endQuote)] = tokens[h];
+        }
+      }
+      tokens[startQuote] = tokens[startQuote].replaceAll("\'","");
+    }
   }
 }
