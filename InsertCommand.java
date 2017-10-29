@@ -36,8 +36,12 @@ public class InsertCommand extends BaseCommand {
           System.exit(1);
         }
         for (int x = 1; x < tokens.length; x++) {
-          Attribute newattribute = new Attribute(tokens[x]);
-          currRow.getAttributes().add(newattribute);
+          if (tokens[x].length() > currRelation.getDomain().getMaxLen() ) {
+            System.out.println(tokens[x] + " exceeds maxlength of " + currRelation.getDomain().getMaxLen());
+          } else {
+            Attribute newattribute = new Attribute(tokens[x]);
+            currRow.getAttributes().add(newattribute);
+          }
         }
         iteratorVal = databaseLen;
       } else iteratorVal++;
