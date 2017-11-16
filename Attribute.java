@@ -8,7 +8,7 @@
 
 public class Attribute {
 
-  private String value;
+  private final String value;
 
   public Attribute (String value) {
     this.value = value;

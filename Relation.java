@@ -10,9 +10,9 @@ import java.util.LinkedList;
 
 public class Relation {
 
-  private String name;
-  private LinkedList<Tuple> tuples = new LinkedList<Tuple>();
-  private LinkedList<DomainNode> domain = new LinkedList<DomainNode>();
+  private final String name;
+  private final LinkedList<Tuple> tuples = new LinkedList<Tuple>();
+  private final LinkedList<DomainNode> domain = new LinkedList<DomainNode>();
 
 
   public Relation (String name) {
@@ -51,8 +51,9 @@ public class Relation {
     return maxlen;
   }
 
+  @SuppressWarnings("SuspiciousNameCombination")
   public void print() {
-    String maxlen = "";
+    String maxlen;
     int tuplesLen = tuples.size();
     int domainLen = domain.size();
     Tuple currTuple;
@@ -81,9 +82,7 @@ public class Relation {
       y = 0;
       System.out.println();
       x++;
-
     }
     System.out.println();
   }
-
 }

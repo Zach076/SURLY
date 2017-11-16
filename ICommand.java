@@ -7,6 +7,6 @@
 */
 
 public interface ICommand {
-    public void run(String params);
-    public String getName();
+    void run(String params);
+    String getName();
 }

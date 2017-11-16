@@ -6,12 +6,10 @@
   DomainNode class for SURLY
 */
 
-import java.util.LinkedList;
-
 public class DomainNode {
-  private String name;
-  private String datatype;
-  private int maxlen;
+  private final String name;
+  private final String datatype;
+  private final int maxlen;
 
   public DomainNode (String name, String datatype, int maxlen) {
     this.name = name;

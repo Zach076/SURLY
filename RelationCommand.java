@@ -5,30 +5,22 @@
   Fall 2017
   Relation command for surly database
 */
-import java.util.Scanner;
 import java.util.LinkedList;
 
 public class RelationCommand extends BaseCommand {
-  private static SurlyDatabase database = SurlyDatabase.getInstance();
-  private static LinkedList<Relation> relations = new LinkedList<Relation>();
-  private String name = "RELATION";
-  private String relationName;
-  private String tupleName;
-  private String datatype;
-  private int maxlen;
+  private static final SurlyDatabase database = SurlyDatabase.getInstance();
+  private final String name = "RELATION";
 
   public void run(String params) {
-    relations = database.getRelations();
+    int maxlen;
+    String relationName;
+    String tupleName;
+    String datatype;
+    LinkedList<Relation> relations = database.getRelations();
     String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
     relationName = tokens[0];
 
-    boolean found = false;
-    for (int j = 0; j < relations.size(); j++) {
-      if (relations.get(j).getName().equals(relationName)) {
-        found = true;
-      }
-    }
-    if (!found) {
+    if (database.findRelation(relationName) == -1) {
       Relation currRelation = new Relation(relationName);
       relations.add(currRelation);
       for (int i = 1; i < tokens.length; i++) {
@@ -44,6 +36,6 @@ public class RelationCommand extends BaseCommand {
     }
   }
   public String getName() {
-    return name;
+    return "RELATION";
   }
 }

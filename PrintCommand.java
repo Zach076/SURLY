@@ -5,19 +5,18 @@
   Fall 2017
   Print command for surly database
 */
-import java.util.Scanner;
 import java.util.LinkedList;
 
 public class PrintCommand extends BaseCommand {
-  private String name = "PRINT";
+  private final String name = "PRINT";
   public void run(String params) {
     String[] tokens = params.trim().split(",\\s|;|\\s");
-    String relationName = tokens[0];
 
     LinkedList<Relation> currDatabase = SurlyDatabase.getRelations();
     int databaseLen = currDatabase.size();
-    int iteratorVal = 0;
+    int iteratorVal;
     Relation currRelation;
+    String relationName;
 
     for (int x = 0; x < tokens.length ; x++) {
       iteratorVal = 0;
@@ -25,7 +24,6 @@ public class PrintCommand extends BaseCommand {
       while (iteratorVal < databaseLen) {
         currRelation = currDatabase.get(iteratorVal);
         if (currRelation.getName().equals(relationName)) {
-          currRelation = currDatabase.get(iteratorVal);
           currRelation.print();
         }
         iteratorVal++;

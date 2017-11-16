@@ -10,12 +10,9 @@ import java.util.LinkedList;
 
 public class SurlyDatabase {
 
-  private static SurlyDatabase database = new SurlyDatabase();
-  private static LinkedList<ICommand> commands = new LinkedList<ICommand>();
-  private static LinkedList<Relation> relations = new LinkedList<Relation>();
-  private static RelationCommand relation = new RelationCommand();
-  private static InsertCommand insert = new InsertCommand();
-  private static PrintCommand print = new PrintCommand();
+  private static final SurlyDatabase database = new SurlyDatabase();
+  private static final LinkedList<ICommand> commands = new LinkedList<ICommand>();
+  private static final LinkedList<Relation> relations = new LinkedList<Relation>();
 
   private SurlyDatabase() {
   }
@@ -36,20 +33,22 @@ public class SurlyDatabase {
   }
 
   public static void addCommands() {
-    commands.add(relation);
-    commands.add(insert);
-    commands.add(print);
+    commands.add(new RelationCommand());
+    commands.add(new InsertCommand());
+    commands.add(new PrintCommand());
+    commands.add(new DestroyCommand());
+    commands.add(new DeleteCommand());
+    commands.add(new SelectCommand());
+    commands.add(new ProjectCommand());
+    commands.add(new JoinCommand());
   }
 
-
-  public void insert() {
-
-  }
-
-	public void print() {
-	}
-
-  public Relation findRelation(String name) {
-    return null;
+  public int findRelation(String relationName) {
+    for (int index = 0; index < relations.size(); index++) {
+      if (relations.get(index).getName().equals(relationName)) {
+        return index;
+      }
+    }
+    return -1;
   }
 }
