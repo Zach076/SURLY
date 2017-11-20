@@ -22,25 +22,17 @@ public class SurlyParser {
    */
   public void parse(String filename, SurlyDatabase database) {
     File file = new File(filename);
-    LinkedList<ICommand> commands = SurlyDatabase.getCommands();
+    String line;
     try {
       Scanner scan = new Scanner(file);
-      String command;
-      boolean ran;
       while(scan.hasNextLine()) {
-        command = scan.next();
-        ran = false;
-        for (int i  = 0; i < commands.size();i++) {
-          // Check for known commands
-          if (commands.get(i).getName().equals(command)) {
-            commands.get(i).run(scan.nextLine());
-            ran = true;
-          }
-        }
+        line = scan.nextLine();
+
+        //System.out.println(line);
         // If command is unknown let the user know
-        if (!ran) {
-          System.out.println("SURLY doesn't understand the command \'" + command + '\'');
-          scan.nextLine();
+        if (!(checkForCommands(line) || line.equals(""))) {
+          System.out.println("SURLY doesn't understand the command \'" + line.substring(0, line.indexOf(' ')) + '\'');
+          //System.out.println(scan.nextLine());
         }
 
       }
@@ -54,4 +46,55 @@ public class SurlyParser {
     return parser;
   }
 
+  private boolean checkForCommands(String line) {
+    return checkBasicCommands(line) || checkAssignmentCommands(line);
+  }
+
+  private boolean checkBasicCommands(String line) {
+    LinkedList<ICommand> basicCommands = SurlyDatabase.getBasicCommands();
+    String command = "";
+
+    Scanner scan = new Scanner(line);
+    if (scan.hasNext()) {
+      command = scan.next();
+    }
+    for (int i  = 0; i < basicCommands.size();i++) {
+      // Check for known commands
+      if (basicCommands.get(i).getName().equals(command)) {
+        //System.out.println(basicCommands.get(i).getName());
+        basicCommands.get(i).run(scan.nextLine());
+        return true;
+      }
+    }
+    return false;
+  }
+  private boolean checkAssignmentCommands(String line) {
+
+    LinkedList<ICommand> assignmentCommands = SurlyDatabase.getAssignmentCommands();
+    String variable = "";
+    String assignment = "";
+    String assignCommand = "";
+    Scanner scan = new Scanner(line);
+
+    if (scan.hasNext()) {
+      variable = scan.next();
+    }
+    if (scan.hasNext()) {
+      assignment = scan.next();
+    }
+    if (scan.hasNext()) {
+      assignCommand = scan.next();
+    }
+    for (int i  = 0; i < assignmentCommands.size();i++) {
+      // Check for known commands
+      if (assignment.equals("=")) {
+        //System.out.println("!!Assignment!!");
+        if (assignmentCommands.get(i).getName().equals(assignCommand)) {
+          assignmentCommands.get(i).run(line);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }

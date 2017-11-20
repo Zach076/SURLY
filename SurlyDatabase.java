@@ -11,7 +11,8 @@ import java.util.LinkedList;
 public class SurlyDatabase {
 
   private static final SurlyDatabase database = new SurlyDatabase();
-  private static final LinkedList<ICommand> commands = new LinkedList<ICommand>();
+  private static final LinkedList<ICommand> basicCommands = new LinkedList<ICommand>();
+  private static final LinkedList<ICommand> assignmentCommands = new LinkedList<ICommand>();
   private static final LinkedList<Relation> relations = new LinkedList<Relation>();
 
   private SurlyDatabase() {
@@ -21,11 +22,17 @@ public class SurlyDatabase {
     return database;
   }
 
-  public static LinkedList<ICommand> getCommands() {
-    if (commands.size() == 0) {
+  public static LinkedList<ICommand> getBasicCommands() {
+    if (basicCommands.size() == 0) {
       addCommands();
     }
-    return commands;
+    return basicCommands;
+  }
+  public static LinkedList<ICommand> getAssignmentCommands() {
+    if (basicCommands.size() == 0) {
+      addCommands();
+    }
+    return assignmentCommands;
   }
 
   public static LinkedList<Relation> getRelations() {
@@ -33,14 +40,14 @@ public class SurlyDatabase {
   }
 
   public static void addCommands() {
-    commands.add(new RelationCommand());
-    commands.add(new InsertCommand());
-    commands.add(new PrintCommand());
-    commands.add(new DestroyCommand());
-    commands.add(new DeleteCommand());
-    commands.add(new SelectCommand());
-    commands.add(new ProjectCommand());
-    commands.add(new JoinCommand());
+    basicCommands.add(new RelationCommand());
+    basicCommands.add(new InsertCommand());
+    basicCommands.add(new PrintCommand());
+    basicCommands.add(new DestroyCommand());
+    basicCommands.add(new DeleteCommand());
+    assignmentCommands.add(new SelectCommand());
+    assignmentCommands.add(new ProjectCommand());
+    assignmentCommands.add(new JoinCommand());
   }
 
   public int findRelation(String relationName) {
