@@ -51,7 +51,6 @@ public class Relation {
     return maxlen;
   }
 
-  @SuppressWarnings("SuspiciousNameCombination")
   public void print() {
     String maxlen;
     int tuplesLen = tuples.size();

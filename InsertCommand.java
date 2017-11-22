@@ -25,7 +25,7 @@ public class InsertCommand extends BaseCommand {
       currRelation.insertTuple();
       Tuple currRow = currRelation.getTuples().getLast();
       if ((tokens.length - 1) != currRelation.getDomain().size()) {
-        // Incorrect amount of attriobutes
+        // Incorrect amount of attributes
         System.out.println("ERRMSG4");
         System.exit(1);
       }
@@ -69,7 +69,6 @@ public class InsertCommand extends BaseCommand {
         }
       }
       tokens[startQuote] = tokens[startQuote].replaceAll("\'","");
-
     }
     String[] newTokens = new String[tokens.length - (endQuote - startQuote)];
     for (int i = 0; i < newTokens.length; i++) {

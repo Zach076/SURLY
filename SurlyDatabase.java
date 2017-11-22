@@ -7,6 +7,7 @@
 */
 
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class SurlyDatabase {
 
@@ -23,15 +24,10 @@ public class SurlyDatabase {
   }
 
   public static LinkedList<ICommand> getBasicCommands() {
-    if (basicCommands.size() == 0) {
-      addCommands();
-    }
     return basicCommands;
   }
   public static LinkedList<ICommand> getAssignmentCommands() {
-    if (basicCommands.size() == 0) {
-      addCommands();
-    }
+
     return assignmentCommands;
   }
 
@@ -58,4 +54,57 @@ public class SurlyDatabase {
     }
     return -1;
   }
+
+  public boolean runBasicCommand(String line) {
+    if (basicCommands.size() == 0) {
+      addCommands();
+    }
+    //System.out.println(line);
+    String command = "";
+
+    Scanner scan = new Scanner(line);
+    if (scan.hasNext()) {
+      command = scan.next();
+    }
+    for (int i  = 0; i < basicCommands.size();i++) {
+      // Check for known commands
+      if (basicCommands.get(i).getName().equals(command)) {
+        //System.out.println(basicCommands.get(i).getName());
+        basicCommands.get(i).run(scan.nextLine());
+        return true;
+      }
+    }
+    return false;
+  }
+  public boolean runAssignmentCommand(String line) {
+    if (basicCommands.size() == 0) {
+      addCommands();
+    }
+    String variable = "";
+    String assignment = "";
+    String assignCommand = "";
+    Scanner scan = new Scanner(line);
+
+    if (scan.hasNext()) {
+      variable = scan.next();
+    }
+    if (scan.hasNext()) {
+      assignment = scan.next();
+    }
+    if (scan.hasNext()) {
+      assignCommand = scan.next();
+    }
+    for (int i  = 0; i < assignmentCommands.size();i++) {
+      // Check for known commands
+      if (assignment.equals("=")) {
+        //System.out.println("!!Assignment!!");
+        if (assignmentCommands.get(i).getName().equals(assignCommand)) {
+          assignmentCommands.get(i).run(line);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 }
