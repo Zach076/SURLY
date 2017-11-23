@@ -12,30 +12,58 @@ public class RelationCommand extends BaseCommand {
   private final String name = "RELATION";
 
   public void run(String params) {
-    int maxlen;
-    String relationName;
-    String tupleName;
-    String datatype;
-    LinkedList<Relation> relations = database.getRelations();
+
     String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
-    relationName = tokens[0];
+    String relationName = tokens[0];
 
     if (database.findRelation(relationName) == -1) {
-      Relation currRelation = new Relation(relationName);
-      relations.add(currRelation);
-      for (int i = 1; i < tokens.length; i++) {
-        tupleName = tokens[i++];
-        datatype = tokens[i++];
-        maxlen = Integer.parseInt(tokens[i]);
-
-        currRelation.addDomain(tupleName, datatype, maxlen);
-      }
+      createRelation(tokens);
     }
     else {
-      System.out.println("The " + relationName + " relation already exists");
+      //System.out.println("The " + relationName + " relation already exists");
+      database.runBasicCommand("DESTROY " + relationName);
+      createRelation(tokens);
     }
   }
   public String getName() {
     return "RELATION";
+  }
+
+  private void createRelation(String[] line) {
+    String relationName = line[0];
+    try {
+      String tupleName;
+      String datatype;
+      int maxlen;
+      LinkedList<Relation> relations = database.getRelations();
+
+      Relation currRelation = new Relation(relationName);
+      relations.add(currRelation);
+      for (int i = 1; i < line.length; i++) {
+        tupleName = line[i++];
+        datatype = line[i++];
+        maxlen = Integer.parseInt(line[i]);
+        if (checkAttributeFormat(relationName, tupleName, datatype, maxlen)) {
+          currRelation.addDomain(tupleName, datatype, maxlen);
+        }
+      }
+    }
+    catch(NumberFormatException exception) {
+      System.out.println("Max length of relation " + relationName + " isn't a number");
+      database.runBasicCommand("DESTROY " + relationName);
+    }
+    catch(ArrayIndexOutOfBoundsException exception) {
+      System.out.println("Relation " + relationName + "\'s attribute format is formatted incorrectly");
+      database.runBasicCommand("DESTROY " + relationName);
+    }
+  }
+
+
+  private boolean checkAttributeFormat(String relation, String tuple, String datatype, int length) {
+    if (!(datatype.equals("NUM") || datatype.equals("CHAR"))) {
+      System.out.println("Relation must have an attribute format of NUM or CHAR");
+      database.runBasicCommand("DESTROY " + relation);
+    }
+    return true;
   }
 }

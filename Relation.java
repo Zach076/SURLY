@@ -59,6 +59,7 @@ public class Relation {
     Attribute currAttribute;
     int x = 0;
     int y = 0;
+    System.out.println(name);
     while(y < domainLen) {
       maxlen = "%" + domain.get(y).getMaxLen() + "s";
       System.out.print(String.format(maxlen + "%s", domain.get(y).getName(), "|"));
