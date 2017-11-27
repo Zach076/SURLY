@@ -51,6 +51,18 @@ public class Relation {
     return maxlen;
   }
 
+  /* Checks qualifications for delete where and select where */
+  public boolean testTuple(String tuple, String qualification) {
+    /* Identify AND groups */
+    String[] andGroups = qualifications.trim().split("\\sand\\s,\\s|;|\\s");
+    for () {
+
+    }
+    /* check for bounds */
+    int upperBound;
+    int lowerBound;
+  }
+
   public void print() {
     String maxlen;
     int tuplesLen = tuples.size();
