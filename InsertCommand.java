@@ -96,6 +96,7 @@ public class InsertCommand extends BaseCommand {
     }
     return true;
   }
+  
   private String checkMaxlen(String data, Relation relation, int index) {
     int maxLength = relation.getDomain().get(index - 1).getMaxLen();
     String datatype = relation.getDomain().get(index - 1).getDatatype();
