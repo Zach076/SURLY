@@ -53,7 +53,7 @@ public class RelationCommand extends BaseCommand {
       database.runBasicCommand("DESTROY " + relationName);
     }
     catch(ArrayIndexOutOfBoundsException exception) {
-      System.out.println("Relation " + relationName + "\'s attribute's are formatted incorrectly");
+      System.out.println("Relation " + relationName + "s attribute's are formatted incorrectly");
       database.runBasicCommand("DESTROY " + relationName);
     }
   }
