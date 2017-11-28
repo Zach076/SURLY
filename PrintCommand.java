@@ -17,7 +17,8 @@ public class PrintCommand extends BaseCommand {
     int iteratorVal;
     Relation currRelation;
     String relationName;
-
+    
+    System.out.println();
     for (int x = 0; x < tokens.length ; x++) {
       iteratorVal = 0;
       relationName = tokens[x];
