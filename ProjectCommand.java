@@ -1,53 +1,126 @@
 /*
-  Stephen Hyde-Donohue and Zachary Richardson
-  SURLY 1
-  WWU CSCI 330
-  Fall 2017
-  Project command for surly database
+	Stephen Hyde-Donohue and Zachary Richardson
+	SURLY 1
+	WWU CSCI 330
+	Fall 2017
+	Project command for surly database
 */
 
 import java.util.LinkedList;
 
 public class ProjectCommand extends BaseCommand {
-    private static final SurlyDatabase database = SurlyDatabase.getInstance();
-    private final String name = "PROJECT";
-    public void run(String params) {
-      System.out.println(params);
-      /* B. PROJECT
-       *  The interpreter, upon recognizing a 'PROJECT' command, goes on to read the
-       *  projection's arguments and calls: RELNUMNEW = PROJECT ATTRIBLISTPTR FROM
-       *  RELNUMOLD;
-       *  The PROJECT function should do the following:
-       *  1. Create a new (temporary) relation, replete with attribute names and formats
-       *  (as in the RELATION statement).
-       *  2. Create a new (temporary) secondary index with storage structure TREE or HASH,
-       *  you decide. (Like the INDEX statement).  Both structures are initially empty.
-       *  3. Now, for each tuple T in RELATION.ENTRYPOINT (RELNUMOLD) do; INSERT (RELNUMNEW,
-       *  MAKEPROJECTEDTUPLE (T, ATTRIBLISTPTR))
-       *  4. If RELATION.TEMPORARY? (RELNUMOLD) = true then DESTROY(RELNUMOLD) and put
-       *  RELNUMOLD on the RELATION available space list.
-       *  The secondary index takes care of
-       *  1. Making sure that the new relation has no duplicates.
-       *  2. Making insertion relatively inexpensive.
-       *  The most obvious MAKEPROJECTEDTUPLE is order (M*N/2) where N =
-       *  the number of attributes in RELATION (RELNUMOLD) and M = the number of
-       *  attributes in the Key list. You can do better.
-       *  Example.
-       *     P1 = PROJECT CREDITS, CNUM FROM COURSE;
-       */
-       String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
-       String newRelationName = tokens[0];
-       for (int i = 0; i < tokens.length; i++) {
-         System.out.println(tokens[i]);
-       }
-       createTemporaryRelation(newRelationName);
-    }
-    public String getName() {
-        return name;
-    }
+	private static final SurlyDatabase database = SurlyDatabase.getInstance();
+	private final String name = "PROJECT";
+	public void run(String params) {
+		//System.out.println(params);
+		String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
 
-    public Relation createTemporaryRelation(String name) {
-      Relation temp = new Relation(name);
-      return temp;
-    }
+
+		Relation projectedRelation = findFromRelation(tokens);
+		String[] attributes = parseAttributesToProject(tokens);
+		String tempRelationName = tokens[0];
+		if (projectedRelation != null) {
+			Relation tempRelation	= createTemporaryRelation(tempRelationName, attributes, projectedRelation);
+			if (tempRelation != null) {
+				populateTempRelation(tempRelation, projectedRelation, attributes);
+			}
+		}
+		//	for (int i = 0; i < tokens.length; i++) {
+		//		System.out.println(tokens[i]);
+		//	}
+		//	System.out.println("***** Projected attributes ****");
+		//	for (int i = 0; i < attributes.length; i++) {
+		//		System.out.println(attributes[i]);
+		//	}
+
+	}
+	public String getName() {
+			return name;
+	}
+
+	private Relation findFromRelation(String[] tokens) {
+		int fromIndex = findFrom(tokens);
+		if (fromIndex == -1) {
+			System.out.println("Project is missing a FROM statement");
+
+		} else {
+			String relationName = tokens[fromIndex + 1];
+			int index = database.findRelation(relationName);
+			if (index == -1) {
+				System.out.println("Trying to PROJECT FROM \'" + relationName + "\' which doesn't exist");
+			} else {
+				return database.getRelations().get(index);
+			}
+		}
+		return null;
+	}
+	private int findFrom(String[] tokens) {
+		for (int i = 0; i < tokens.length; i++) {
+			if (tokens[i].equals("FROM")) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private String[] parseAttributesToProject(String[] tokens) {
+		String[] attributes = new String[countAttributes(tokens)];
+
+		int fromIndex = findFrom(tokens);
+		int startofAttributes = 3;
+		for (int i = startofAttributes; i < fromIndex; i++) {
+			attributes[i - startofAttributes] = tokens[i];
+		}
+		return attributes;
+	}
+
+	private int countAttributes(String[] tokens) {
+		int count = 0;
+		int fromIndex = findFrom(tokens);
+		int startofAttributes = 3;
+		for (int i = startofAttributes; i < fromIndex; i++) {
+			count++;
+		}
+		return count;
+	}
+
+	private Relation createTemporaryRelation(String relationName, String[] attributes, Relation oldRel) {
+		String attributeString = buildAttributeString(attributes, oldRel);
+		database.runBasicCommand("RELATION " + relationName + " " + attributeString + ";");
+		int index = database.findRelation(relationName);
+		if (index == -1) {
+			System.out.println("Trying to find a temporary relation but \'" + relationName + "\' doesn't exist");
+		} else {
+			return database.getRelations().get(index);
+		}
+		return null;
+	}
+
+	private String buildAttributeString(String[] attributes, Relation relation) {
+		LinkedList<DomainNode> oldDomain = relation.getDomain();
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+
+		for (int i = 0; i < attributes.length; i++) {
+			for (int j = 0; j < oldDomain.size(); j++) {
+				if (oldDomain.get(j).getName().equals(attributes[i])) {
+					sb.append(oldDomain.get(j).getName() + " ");
+					sb.append(oldDomain.get(j).getDatatype() + " ");
+					sb.append(oldDomain.get(j).getMaxLen());
+					if (attributes.length - i != 1) {
+						sb.append(", ");
+					}
+				}
+			}
+		}
+		sb.append(")");
+		return sb.toString();
+	}
+
+	private void populateTempRelation(Relation tempRel, Relation oldRel, String[] attributes) {
+		for (int i = 0; i < attributes.length; i++) {
+			i++;
+		}
+	}
+
 }

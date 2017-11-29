@@ -8,12 +8,12 @@
 import java.util.LinkedList;
 
 public class SelectCommand extends BaseCommand {
-    private static final SurlyDatabase database = SurlyDatabase.getInstance();
-    private final String name = "SELECT";
-    public void run(String params) {
-      //System.out.println(params);
-    }
-    public String getName() {
-        return name;
-    }
+  private static final SurlyDatabase database = SurlyDatabase.getInstance();
+  private final String name = "SELECT";
+  public void run(String params) {
+    //System.out.println(params);
+  }
+  public String getName() {
+      return name;
+  }
 }

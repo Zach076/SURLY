@@ -48,6 +48,7 @@ public class SurlyDatabase {
 
   public int findRelation(String relationName) {
     for (int index = 0; index < relations.size(); index++) {
+      //System.out.println("**" + relations.get(index).getName());
       if (relations.get(index).getName().equals(relationName)) {
         return index;
       }

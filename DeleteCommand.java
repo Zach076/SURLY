@@ -8,12 +8,12 @@
 import java.util.LinkedList;
 
 public class DeleteCommand extends BaseCommand {
-    private static final SurlyDatabase database = SurlyDatabase.getInstance();
-    private final String name = "DELETE";
-    public void run(String params) {
+  private static final SurlyDatabase database = SurlyDatabase.getInstance();
+  private final String name = "DELETE";
+  public void run(String params) {
 
-    }
-    public String getName() {
-        return name;
-    }
+  }
+  public String getName() {
+      return name;
+  }
 }

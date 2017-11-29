@@ -27,14 +27,10 @@ public class SurlyParser {
       Scanner scan = new Scanner(file);
       while(scan.hasNextLine()) {
         line = scan.nextLine();
-
-        //System.out.println(line);
         // If command is unknown let the user know
         if (!(checkForCommands(line, database) || line.equals(""))) {
           System.out.println("SURLY doesn't understand the command \'" + line.substring(0, line.indexOf(' ')) + '\'');
-          //System.out.println(scan.nextLine());
         }
-
       }
     }
     catch(FileNotFoundException exception) {

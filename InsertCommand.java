@@ -13,7 +13,7 @@ public class InsertCommand extends BaseCommand {
 
   public void run(String params) {
 
-    LinkedList<Relation> relations = SurlyDatabase.getRelations();
+    LinkedList<Relation> relations = database.getRelations();
     String[] tokens = params.trim().split("\\s|;");
     String relationName = tokens[0];
     int index = database.findRelation(relationName);
@@ -88,6 +88,7 @@ public class InsertCommand extends BaseCommand {
     }
     return true;
   }
+
   private boolean checkAttributeLength(Relation relation, String[] attributes) {
     if (attributes.length != relation.getDomain().size()) {
       // Incorrect amount of attributes

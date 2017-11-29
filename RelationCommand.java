@@ -20,13 +20,12 @@ public class RelationCommand extends BaseCommand {
       createRelation(tokens);
     }
     else {
-      //System.out.println("The " + relationName + " relation already exists");
       database.runBasicCommand("DESTROY " + relationName);
       createRelation(tokens);
     }
   }
   public String getName() {
-    return "RELATION";
+    return name;
   }
 
   private void createRelation(String[] line) {
