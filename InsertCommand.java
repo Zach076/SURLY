@@ -13,33 +13,20 @@ public class InsertCommand extends BaseCommand {
 
   public void run(String params) {
 
-    String[] tokens = quoteHandler(params.trim().split("\\s|;"));
-    String relationName = tokens[0];
-
     LinkedList<Relation> relations = SurlyDatabase.getRelations();
-
+    String[] tokens = params.trim().split("\\s|;");
+    String relationName = tokens[0];
     int index = database.findRelation(relationName);
+    String[] attributes = parseAttributes(tokens);
 
     if (index >= 0) {
       Relation currRelation = relations.get(index);
-      if ((tokens.length - 1) != currRelation.getDomain().size()) {
-        // Incorrect amount of attributes
-        System.out.println("ERRMSG4");
-        System.exit(1);
-      }
-      currRelation.insertTuple();
-      Tuple currRow = currRelation.getTuples().getLast();
-      for (int x = 1; x < tokens.length; x++) {
-        if (checkDatatype(tokens[x], currRelation, x)) {
-          String value = checkMaxlen(tokens[x], currRelation, x);
-          currRow.getAttributes().add(new Attribute(value));
-        } else {
-          currRelation.getTuples().removeLast();
-          System.out.println("ERRMSG2");
-        }
+      if (runChecks(currRelation, attributes)) {
+        attributes = enforceMaxlen(currRelation, attributes);
+        addAttributes(currRelation, attributes);
       }
     } else {
-      System.out.println("Invalid relation name \'" + relationName + "\'");
+      System.out.println("Relation \'" + relationName + "\' doesn't exist");
     }
   }
 
@@ -47,12 +34,25 @@ public class InsertCommand extends BaseCommand {
     return name;
   }
 
+  private String[] parseAttributes(String[] tokens) {
+    String[] quotedAttributes = removeFirstToken(tokens);
+    String[] attributes = quoteHandler(quotedAttributes);
+    return attributes;
+  }
+  private String[] removeFirstToken(String[] tokens) {
+    String newTokens[] = new String[tokens.length - 1];
+    for (int i = 1; i < tokens.length; i++) {
+      newTokens[i - 1] = tokens[i];
+    }
+    return newTokens;
+  }
+
   private String[] quoteHandler (String[] tokens) {
     boolean foundQuote = false;
     int startQuote = 0;
     int endQuote = 0;
 
-    for (int j = 1; j < tokens.length; j++) {
+    for (int j = 0; j < tokens.length; j++) {
       if (tokens[j].charAt(0) == '\'' && !foundQuote) {
         foundQuote = true;
         startQuote = j;
@@ -79,47 +79,87 @@ public class InsertCommand extends BaseCommand {
     return newTokens;
   }
 
-  private boolean checkDatatype(String data, Relation relation, int index) {
-    String datatype = relation.getDomain().get(index - 1).getDatatype();
-    if (datatype.equals("NUM")) {
-      for (int i = 0; i < data.length(); i++) {
-        if (!Character.isDigit(data.charAt(i))) {
-          System.out.println(data.charAt(i) + " in " + data + " is not a \'NUM\'");
-          return false;
-        }
-      }
-    } else if (datatype.equals("CHAR")) {
-      return true;
-    } else {
-      System.out.println("Invalid stored datatype in a relation while inputting");
+  private boolean runChecks(Relation relation, String[] attributes) {
+    if (!checkAttributeLength(relation, attributes)) {
+      return false;
+    }
+    if (!checkDatatype(relation, attributes)){
+      return false;
+    }
+    return true;
+  }
+  private boolean checkAttributeLength(Relation relation, String[] attributes) {
+    if (attributes.length != relation.getDomain().size()) {
+      // Incorrect amount of attributes
+      System.out.println("ERRMSG4");
       return false;
     }
     return true;
   }
 
-  private String checkMaxlen(String data, Relation relation, int index) {
-    int maxLength = relation.getDomain().get(index - 1).getMaxLen();
-    String datatype = relation.getDomain().get(index - 1).getDatatype();
-
-    if (data.length() >  maxLength) {
-      int startIndex = 0;
-      int endIndex = 0;
-      if (datatype.equals("NUM")) {
-        //truncate to the left
-        startIndex = data.length() - maxLength;
-        endIndex = data.length();
-        System.out.println("ERRMSG3");
-      } else {
-        //truncate to the left
-        startIndex = 0;
-        endIndex = maxLength;
-        System.out.println("ERRMSG1");
-
+  private boolean checkDatatype(Relation relation, String[] attributes) {
+    String currDatatype;
+    String currAttribute;
+    for (int i = 0; i < attributes.length; i++) {
+      currAttribute = attributes[i];
+      currDatatype = relation.getDomain().get(i).getDatatype();
+      if (currDatatype.equals("NUM")) {
+        for (int j = 0; j < currAttribute.length(); j++) {
+          if (!Character.isDigit(currAttribute.charAt(j))) {
+            System.out.println(currAttribute.charAt(j) + " in " + currAttribute + " is not a \'NUM\'");
+            return false;
+          }
+        }
       }
-      String substring = data.substring(startIndex, endIndex);
-      return substring;
-
+      else if (!currDatatype.equals("CHAR")) {
+        System.out.println("Invalid stored datatype in a relation while inputting");
+        return false;
+      }
     }
-    return data;
+    return true;
+  }
+
+  private void addAttributes(Relation relation, String[] attributes) {
+    relation.insertTuple();
+    Tuple currRow = relation.getTuples().getLast();
+    for (int x = 0; x < attributes.length; x++) {
+      currRow.getAttributes().add(new Attribute(attributes[x]));
+    }
+  }
+
+  private String[] enforceMaxlen(Relation relation, String[] attributes) {
+    String[] truncatedAttributes = new String[attributes.length];
+    String truncatedAttribute;
+    int maxLength;
+    String datatype;
+
+    for (int i = 0; i < attributes.length; i++) {
+      maxLength = relation.getDomain().get(i).getMaxLen();
+      datatype = relation.getDomain().get(i).getDatatype();
+      truncatedAttribute = attributes[i];
+      if (attributes[i].length() > maxLength) {
+        if (datatype.equals("NUM")) {
+          System.out.println("ERRMSG3");
+          truncatedAttribute = truncateLeft(maxLength, attributes[i]);
+        } else {
+          System.out.println("ERRMSG1");
+          truncatedAttribute = truncateRight(maxLength, attributes[i]);
+        }
+      }
+      truncatedAttributes[i] = truncatedAttribute;
+    }
+    return truncatedAttributes;
+  }
+
+  private String truncateLeft(int newLength, String word) {
+    int startIndex = word.length() - newLength;
+    int endIndex = word.length();
+    return word.substring(startIndex, endIndex);
+  }
+
+  private String truncateRight(int newLength, String word) {
+    int startIndex = 0;
+    int endIndex = newLength;
+    return word.substring(startIndex, endIndex);
   }
 }
