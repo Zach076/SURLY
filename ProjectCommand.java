@@ -74,12 +74,13 @@ public class ProjectCommand extends BaseCommand {
 		return count;
 	}
 
-	private Relation createTemporaryRelation(String relationName, String[] attributes, Relation oldRel) {
+	private Relation createTemporaryRelation(String newRelName, String[] attributes, Relation oldRel) {
 		String attributeString = buildAttributeString(attributes, oldRel);
-		database.runBasicCommand("RELATION " + relationName + " " + attributeString + ";");
-		int index = database.findRelation(relationName);
+		System.out.println(attributeString);
+		database.runBasicCommand("RELATION " + newRelName + " " + attributeString + ";");
+		int index = database.findRelation(newRelName);
 		if (index == -1) {
-			System.out.println("Trying to find a temporary relation but \'" + relationName + "\' doesn't exist");
+			System.out.println("Trying to find a temporary relation but \'" + newRelName + "\' doesn't exist");
 		} else {
 			return database.getRelations().get(index);
 		}
@@ -108,7 +109,25 @@ public class ProjectCommand extends BaseCommand {
 		return sb.toString();
 	}
 
-	private boolean populateTempRelation(Relation oldRel, Relation tempRel, String[] attributes) {
-		return database.copyOverTuples(oldRel,tempRel,attributes);
+	private boolean populateTempRelation(Relation sourceRel, Relation tempRel, String[] tupleNames) {
+    String tempName = tempRel.getName();
+    int srcIndex = 0;
+
+    LinkedList<Tuple> sourceTuples = sourceRel.getTuples();
+    for (int j = 0; j < sourceTuples.size(); j++) {
+      StringBuilder attributes = new StringBuilder();
+      for (int i = 0; i < tupleNames.length; i++) {
+        srcIndex = sourceRel.findDomainNode(tupleNames[i]);
+        if (srcIndex == -1) {
+          return false;
+        }
+        String value = sourceTuples.get(j).getAttrib(srcIndex).getValue();
+        attributes.append("\'" + sourceTuples.get(j).getAttrib(srcIndex).getValue() + "\' ");
+      }
+      System.out.println("INSERT " + tempName + " " + attributes.toString());
+      database.runBasicCommand("INSERT " + tempName + " " + attributes.toString());
+    }
+    return true;
 	}
+
 }
