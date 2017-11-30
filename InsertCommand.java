@@ -13,7 +13,10 @@ public class InsertCommand extends BaseCommand {
 
   public void run(String params) {
 
-    String[] tokens = quoteHandler(params.trim().split("\\s|;"));
+    String[] tokens = params.trim().split("\\s|;");
+    for(int i = 0; i < tokens.length; i++) {
+      tokens = quoteHandler(tokens);
+    }
     String relationName = tokens[0];
 
     LinkedList<Relation> relations = SurlyDatabase.getRelations();
@@ -49,6 +52,7 @@ public class InsertCommand extends BaseCommand {
 
   private String[] quoteHandler (String[] tokens) {
     boolean foundQuote = false;
+    boolean foundEndQuote = false;
     int startQuote = 0;
     int endQuote = 0;
 
@@ -57,8 +61,9 @@ public class InsertCommand extends BaseCommand {
         foundQuote = true;
         startQuote = j;
       }
-      if (tokens[j].charAt(tokens[j].length() - 1) == '\'' && foundQuote) {
+      if (tokens[j].charAt(tokens[j].length() - 1) == '\'' && foundQuote && !foundEndQuote) {
         endQuote = j;
+        foundEndQuote = true;
       }
     }
     if (foundQuote) {
