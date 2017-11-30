@@ -15,6 +15,7 @@ public class InsertCommand extends BaseCommand {
 
     LinkedList<Relation> relations = database.getRelations();
     String[] tokens = params.trim().split("\\s|;");
+
     String relationName = tokens[0];
     int index = database.findRelation(relationName);
     String[] attributes = parseAttributes(tokens);
@@ -49,6 +50,7 @@ public class InsertCommand extends BaseCommand {
 
   private String[] quoteHandler (String[] tokens) {
     boolean foundQuote = false;
+    boolean foundEndQuote = false;
     int startQuote = 0;
     int endQuote = 0;
 
@@ -57,8 +59,9 @@ public class InsertCommand extends BaseCommand {
         foundQuote = true;
         startQuote = j;
       }
-      if (tokens[j].charAt(tokens[j].length() - 1) == '\'' && foundQuote) {
+      if (tokens[j].charAt(tokens[j].length() - 1) == '\'' && foundQuote && !foundEndQuote) {
         endQuote = j;
+        foundEndQuote = true;
       }
     }
     if (foundQuote) {
