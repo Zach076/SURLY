@@ -48,7 +48,6 @@ public class SurlyDatabase {
 
   public int findRelation(String relationName) {
     for (int index = 0; index < relations.size(); index++) {
-      //System.out.println("**" + relations.get(index).getName());
       if (relations.get(index).getName().equals(relationName)) {
         return index;
       }
@@ -60,7 +59,6 @@ public class SurlyDatabase {
     if (basicCommands.size() == 0) {
       addCommands();
     }
-    //System.out.println(line);
     String command = "";
 
     Scanner scan = new Scanner(line);
@@ -70,7 +68,6 @@ public class SurlyDatabase {
     for (int i  = 0; i < basicCommands.size();i++) {
       // Check for known commands
       if (basicCommands.get(i).getName().equals(command)) {
-        //System.out.println(basicCommands.get(i).getName());
         basicCommands.get(i).run(scan.nextLine());
         return true;
       }
@@ -98,7 +95,6 @@ public class SurlyDatabase {
     for (int i  = 0; i < assignmentCommands.size();i++) {
       // Check for known commands
       if (assignment.equals("=")) {
-        //System.out.println("!!Assignment!!");
         if (assignmentCommands.get(i).getName().equals(assignCommand)) {
           assignmentCommands.get(i).run(line);
           return true;

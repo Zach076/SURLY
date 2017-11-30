@@ -12,9 +12,7 @@ public class ProjectCommand extends BaseCommand {
 	private static final SurlyDatabase database = SurlyDatabase.getInstance();
 	private final String name = "PROJECT";
 	public void run(String params) {
-		//System.out.println(params);
-		String[] tokens = params.trim().split("\\s\\(|\\)|,\\s|;|\\s");
-
+		String[] tokens = params.trim().split(",\\s|;|\\s");
 
 		Relation projectedRelation = findFromRelation(tokens);
 		String[] attributes = parseAttributesToProject(tokens);
@@ -36,7 +34,6 @@ public class ProjectCommand extends BaseCommand {
 		int fromIndex = findFrom(tokens);
 		if (fromIndex == -1) {
 			System.out.println("Project is missing a FROM statement");
-
 		} else {
 			String relationName = tokens[fromIndex + 1];
 			int index = database.findRelation(relationName);
@@ -59,7 +56,6 @@ public class ProjectCommand extends BaseCommand {
 
 	private String[] parseAttributesToProject(String[] tokens) {
 		String[] attributes = new String[countAttributes(tokens)];
-
 		int fromIndex = findFrom(tokens);
 		int startofAttributes = 3;
 		for (int i = startofAttributes; i < fromIndex; i++) {
@@ -105,7 +101,7 @@ public class ProjectCommand extends BaseCommand {
 					sb.append(", ");
 				}
 			} else {
-				System.out.println("Projecting attribute \'" + attributes[i] + "\' but isn't in " + relation.getName());
+				System.out.println("Projecting attribute \'" + attributes[i] + "\' but it isn't in " + relation.getName());
 			}
 		}
 		sb.append(")");
@@ -115,7 +111,4 @@ public class ProjectCommand extends BaseCommand {
 	private boolean populateTempRelation(Relation oldRel, Relation tempRel, String[] attributes) {
 		return database.copyOverTuples(oldRel,tempRel,attributes);
 	}
-
-
-
 }

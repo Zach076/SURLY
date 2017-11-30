@@ -54,7 +54,6 @@ public class Relation {
   public int findDomainNode(String name) {
     for (int i = 0; i < domain.size(); i++) {
       if (domain.get(i).getName().equals(name)) {
-        //System.out.println("Domain node says " + name + " = " + domain.get(i).getName());
         return i;
       }
     }
