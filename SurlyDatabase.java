@@ -108,4 +108,22 @@ public class SurlyDatabase {
     return false;
   }
 
+  public boolean copyOverTuples(Relation sourceRel, Relation destinationRel, String[] tupleNames) {
+    String destName = destinationRel.getName();
+    int srcIndex = 0;
+
+    LinkedList<Tuple> sourceTuples = sourceRel.getTuples();
+    for (int j = 0; j < sourceTuples.size(); j++) {
+      StringBuilder attributes = new StringBuilder();
+      for (int i = 0; i < tupleNames.length; i++) {
+        srcIndex = sourceRel.findDomainNode(tupleNames[i]);
+        if (srcIndex == -1) {
+          return false;
+        }
+        attributes.append(sourceTuples.get(j).getAttrib(srcIndex).getValue() + " ");
+      }
+      runBasicCommand("INSERT " + destName + " " + attributes.toString());
+    }
+    return true;
+  }
 }

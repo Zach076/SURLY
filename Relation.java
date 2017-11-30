@@ -51,6 +51,18 @@ public class Relation {
     return maxlen;
   }
 
+  public int findDomainNode(String name) {
+    for (int i = 0; i < domain.size(); i++) {
+      if (domain.get(i).getName().equals(name)) {
+        //System.out.println("Domain node says " + name + " = " + domain.get(i).getName());
+        return i;
+      }
+    }
+    return -1;
+  }
+
+
+
   // /* Checks qualifications for delete where and select where */
   // public boolean testTuple(String tuple, String qualification) {
   //   /* Identify AND groups */

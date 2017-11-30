@@ -22,17 +22,11 @@ public class ProjectCommand extends BaseCommand {
 		if (projectedRelation != null) {
 			Relation tempRelation	= createTemporaryRelation(tempRelationName, attributes, projectedRelation);
 			if (tempRelation != null) {
-				populateTempRelation(tempRelation, projectedRelation, attributes);
+				if (!populateTempRelation(projectedRelation, tempRelation, attributes)) {
+					System.out.println("There was an error when populating \'" + tempRelation + "\'");
+				}
 			}
 		}
-		//	for (int i = 0; i < tokens.length; i++) {
-		//		System.out.println(tokens[i]);
-		//	}
-		//	System.out.println("***** Projected attributes ****");
-		//	for (int i = 0; i < attributes.length; i++) {
-		//		System.out.println(attributes[i]);
-		//	}
-
 	}
 	public String getName() {
 			return name;
@@ -102,25 +96,26 @@ public class ProjectCommand extends BaseCommand {
 		sb.append("(");
 
 		for (int i = 0; i < attributes.length; i++) {
-			for (int j = 0; j < oldDomain.size(); j++) {
-				if (oldDomain.get(j).getName().equals(attributes[i])) {
-					sb.append(oldDomain.get(j).getName() + " ");
-					sb.append(oldDomain.get(j).getDatatype() + " ");
-					sb.append(oldDomain.get(j).getMaxLen());
-					if (attributes.length - i != 1) {
-						sb.append(", ");
-					}
+			int domainIndex = relation.findDomainNode(attributes[i]);
+			if (domainIndex != -1) {
+				sb.append(oldDomain.get(domainIndex).getName() + " ");
+				sb.append(oldDomain.get(domainIndex).getDatatype() + " ");
+				sb.append(oldDomain.get(domainIndex).getMaxLen());
+				if (attributes.length - i != 1) {
+					sb.append(", ");
 				}
+			} else {
+				System.out.println("Projecting attribute \'" + attributes[i] + "\' but isn't in " + relation.getName());
 			}
 		}
 		sb.append(")");
 		return sb.toString();
 	}
 
-	private void populateTempRelation(Relation tempRel, Relation oldRel, String[] attributes) {
-		for (int i = 0; i < attributes.length; i++) {
-			i++;
-		}
+	private boolean populateTempRelation(Relation oldRel, Relation tempRel, String[] attributes) {
+		return database.copyOverTuples(oldRel,tempRel,attributes);
 	}
+
+
 
 }
