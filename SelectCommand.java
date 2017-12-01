@@ -20,18 +20,18 @@ public class SelectCommand extends BaseCommand {
       LinkedList<Relation> relations = database.getRelations();
       if (index < 0) {
         System.out.println("The relation \'" + relationName + "\' doesn't exist");
-      }
+      } else {
+        Relation currRelation = relations.get(index);
+        Tuple currRow;
 
-      Relation currRelation = relations.get(index);
-      Tuple currRow;
+        database.runBasicCommand("RELATION " + tokens[0] + " " + formatDomain(currRelation) + ";");
 
-      database.runBasicCommand("RELATION " + tokens[0] + " " + formatDomain(currRelation) + ";");
+        for(int z = 0; z < currRelation.getSize(); z++) {
+          currRow = currRelation.getAt(z);
 
-      for(int z = 0; z < currRelation.getSize(); z++) {
-        currRow = currRelation.getAt(z);
-
-        if (currRelation.isTrue(currRow, formatTokens(tokens) )) {
-          database.runBasicCommand("INSERT " + tokens[0] + formatAttributes(currRow) + ";");
+          if (currRelation.isTrue(currRow, formatTokens(tokens) )) {
+            database.runBasicCommand("INSERT " + tokens[0] + formatAttributes(currRow) + ";");
+          }
         }
       }
     }

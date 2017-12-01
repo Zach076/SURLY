@@ -14,7 +14,7 @@ public class JoinCommand extends BaseCommand {
     //System.out.println(params);
     String[] tokens = params.trim().split(",\\s|;|\\s");
     Relation[] relationsToJoin = parseRelations(tokens);
-    String[] joiningAttributes = parseAttributesToJoinOn(tokens); //check these
+    String[] joiningAttributes = parseAttributesToJoinOn(tokens);
     if (checkForValidJoinAttributes(joiningAttributes, relationsToJoin)) {
       String tempRelName = tokens[0];
       Relation tempRelation = createTemporaryRelation(tempRelName, joiningAttributes, relationsToJoin);

@@ -69,7 +69,7 @@ public class Relation {
     return -1;
   }
 
-  public boolean isTrue(Tuple currRow,String[] tokens) {
+  public boolean isTrue(Tuple currRow, String[] tokens) {
 
     int truthMatrixLength = (int)((tokens.length - 2) / 4);
     boolean[] truthMatrix = new boolean[truthMatrixLength];
@@ -87,7 +87,10 @@ public class Relation {
         }
         for(int x = 0; x < tuples.size(); x++) {
           currRow = tuples.get(x);
+          System.out.println(tokens[helperInt+3]);
+          System.out.println(currRow.getAttrib(attributeIndex).getValue());
           if (currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
+
             truthMatrix[i] = true;
           }
         }
