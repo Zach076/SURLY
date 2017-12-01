@@ -15,9 +15,11 @@ public class JoinCommand extends BaseCommand {
     String[] tokens = params.trim().split(",\\s|;|\\s");
     Relation[] relationsToJoin = parseRelations(tokens);
     String[] joiningAttributes = parseAttributesToJoinOn(tokens); //check these
-    String tempRelName = tokens[0];
-    Relation tempRelation = createTemporaryRelation(tempRelName, joiningAttributes, relationsToJoin);
-    populateTempRelation(relationsToJoin, tempRelation, joiningAttributes);
+    if (checkForValidJoinAttributes(joiningAttributes, relationsToJoin)) {
+      String tempRelName = tokens[0];
+      Relation tempRelation = createTemporaryRelation(tempRelName, joiningAttributes, relationsToJoin);
+      populateTempRelation(relationsToJoin, tempRelation, joiningAttributes);
+    }
   }
   public String getName() {
       return name;
@@ -46,9 +48,28 @@ public class JoinCommand extends BaseCommand {
     joiningAttributes[1] = tokens[secondAttribute];
     return joiningAttributes;
   }
+
+  private boolean checkForValidJoinAttributes(String[] joiners, Relation[] relationsToJoin) {
+    boolean valid = true;
+    int[] indices = findJoiningIndices(relationsToJoin, joiners);
+    for (int i = 0; i < indices.length; i++) {
+      if (indices[i] == -1) {
+        return false;
+      }
+    }
+    String[] datatypes = new String[2];
+    datatypes[0] = relationsToJoin[0].getDomain().get(indices[0]).getDatatype();
+    datatypes[1] = relationsToJoin[1].getDomain().get(indices[1]).getDatatype();
+
+    if (!datatypes[0].equals(datatypes[1])) {
+      return false;
+    }
+    return true;
+
+  }
+
   private Relation createTemporaryRelation(String newRelName, String[] joiningAttributes, Relation[] relationsToJoin) {
     String attributeString = buildAttributeString(joiningAttributes[1], relationsToJoin);
-    //System.out.println("RELATION " + newRelName + " " + attributeString + ";");
     database.runBasicCommand("RELATION " + newRelName + " " + attributeString + ";");
     int index = database.findRelation(newRelName);
     if (index == -1) {
@@ -88,7 +109,6 @@ public class JoinCommand extends BaseCommand {
     LinkedList<Tuple> firstRelTuples = joinedRels[0].getTuples();
     LinkedList<Tuple> secondRelTuples = joinedRels[1].getTuples();
     int[] joiningIndices = findJoiningIndices(joinedRels, joiningAttributes);
-    //System.out.println(joinedRels[1].getDomain().get(joiningIndices[1]).getName());
 
     for (int i = 0; i < firstRelTuples.size(); i++) {
       String joiningValue1 = firstRelTuples.get(i).getAttrib(joiningIndices[0]).getValue();
@@ -98,11 +118,9 @@ public class JoinCommand extends BaseCommand {
           StringBuilder attributes = new StringBuilder();
           for (int k = 0; k < tempAttributes.length; k++) {
             String value = "";
-            if (joinedRels[0].findDomainNode(tempAttributes[k]) != -1) {
-              srcIndex = joinedRels[0].findDomainNode(tempAttributes[k]);
+            if ((srcIndex = joinedRels[0].findDomainNode(tempAttributes[k])) != -1) {
               value = firstRelTuples.get(i).getAttrib(srcIndex).getValue();
-            } else if (joinedRels[1].findDomainNode(tempAttributes[k]) != -1) {
-              srcIndex = joinedRels[1].findDomainNode(tempAttributes[k]);
+            } else if ((srcIndex = joinedRels[1].findDomainNode(tempAttributes[k])) != -1) {
               value = secondRelTuples.get(j).getAttrib(srcIndex).getValue();
             } else {
               return false;
