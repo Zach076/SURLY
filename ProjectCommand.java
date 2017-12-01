@@ -76,7 +76,6 @@ public class ProjectCommand extends BaseCommand {
 
 	private Relation createTemporaryRelation(String newRelName, String[] attributes, Relation oldRel) {
 		String attributeString = buildAttributeString(attributes, oldRel);
-		System.out.println(attributeString);
 		database.runBasicCommand("RELATION " + newRelName + " " + attributeString + ";");
 		int index = database.findRelation(newRelName);
 		if (index == -1) {
@@ -124,7 +123,7 @@ public class ProjectCommand extends BaseCommand {
         String value = sourceTuples.get(j).getAttrib(srcIndex).getValue();
         attributes.append("\'" + sourceTuples.get(j).getAttrib(srcIndex).getValue() + "\' ");
       }
-      System.out.println("INSERT " + tempName + " " + attributes.toString());
+      //System.out.println("INSERT " + tempName + " " + attributes.toString());
       database.runBasicCommand("INSERT " + tempName + " " + attributes.toString());
     }
     return true;

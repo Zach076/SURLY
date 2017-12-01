@@ -37,7 +37,10 @@ public class InsertCommand extends BaseCommand {
 
   private String[] parseAttributes(String[] tokens) {
     String[] quotedAttributes = removeFirstToken(tokens);
-    String[] attributes = quoteHandler(quotedAttributes);
+    for (int i = 0; i < quotedAttributes.length; i++) {
+      quotedAttributes = quoteHandler(quotedAttributes);
+    }
+    String[] attributes = quotedAttributes;
     return attributes;
   }
   private String[] removeFirstToken(String[] tokens) {
@@ -95,6 +98,7 @@ public class InsertCommand extends BaseCommand {
   private boolean checkAttributeLength(Relation relation, String[] attributes) {
     if (attributes.length != relation.getDomain().size()) {
       // Incorrect amount of attributes
+      System.out.println("Attributes length = " + attributes.length + " Domain size is " + relation.getDomain().size());
       System.out.println("ERRMSG4");
       return false;
     }

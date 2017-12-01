@@ -88,10 +88,12 @@ public class JoinCommand extends BaseCommand {
     LinkedList<Tuple> firstRelTuples = joinedRels[0].getTuples();
     LinkedList<Tuple> secondRelTuples = joinedRels[1].getTuples();
     int[] joiningIndices = findJoiningIndices(joinedRels, joiningAttributes);
+    //System.out.println(joinedRels[1].getDomain().get(joiningIndices[1]).getName());
+
     for (int i = 0; i < firstRelTuples.size(); i++) {
-      String joiningValue1 = firstRelTuples.get(i).getAttrib(srcIndex).getValue();
+      String joiningValue1 = firstRelTuples.get(i).getAttrib(joiningIndices[0]).getValue();
       for (int j = 0; j < secondRelTuples.size(); j ++) {
-        String joiningValue2 = secondRelTuples.get(i).getAttrib(srcIndex).getValue();
+        String joiningValue2 = secondRelTuples.get(j).getAttrib(joiningIndices[1]).getValue();
         if (joiningValue1.equals(joiningValue2)) {
           StringBuilder attributes = new StringBuilder();
           for (int k = 0; k < tempAttributes.length; k++) {
@@ -101,13 +103,12 @@ public class JoinCommand extends BaseCommand {
               value = firstRelTuples.get(i).getAttrib(srcIndex).getValue();
             } else if (joinedRels[1].findDomainNode(tempAttributes[k]) != -1) {
               srcIndex = joinedRels[1].findDomainNode(tempAttributes[k]);
-              value = secondRelTuples.get(i).getAttrib(srcIndex).getValue();
+              value = secondRelTuples.get(j).getAttrib(srcIndex).getValue();
             } else {
               return false;
             }
             attributes.append("\'" + value + "\' ");
           }
-          System.out.println("INSERT " + tempName + " " + attributes.toString());
           database.runBasicCommand("INSERT " + tempName + " " + attributes.toString());
         }
       }
