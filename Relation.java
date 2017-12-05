@@ -87,12 +87,13 @@ public class Relation {
         }
         for(int x = 0; x < tuples.size(); x++) {
           currRow = tuples.get(x);
-          System.out.println(tokens[helperInt+3]);
-          System.out.println(currRow.getAttrib(attributeIndex).getValue());
+          //System.out.print(tokens[helperInt+3] + " ");
+          //System.out.print(currRow.getAttrib(attributeIndex).getValue());
           if (currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
-
+            //System.out.print("*");
             truthMatrix[i] = true;
           }
+          // System.out.println();
         }
       } else if (tokens[helperInt + 2].equals(">=")) {
         for(int x = 0; x < domain.size(); x++) {
@@ -151,6 +152,9 @@ public class Relation {
         }
       }
     }
+    // for (int omp = 0; omp < truthMatrixLength; omp++) {
+    //   System.out.println(truthMatrix[omp]);
+    // }
     if(truthMatrixLength == 1) {
       if(truthMatrix[0] == true) {
         return true;
