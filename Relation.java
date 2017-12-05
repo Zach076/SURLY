@@ -102,7 +102,7 @@ public class Relation {
         }
         for(int x = 0; x < tuples.size(); x++) {
           currRow = tuples.get(x);
-          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) > 0 || currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
+          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) < 0 || currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
             truthMatrix[i] = true;
           }
         }
@@ -113,7 +113,7 @@ public class Relation {
         }
         for(int x = 0; x < tuples.size(); x++) {
           currRow = tuples.get(x);
-          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) < 0 || currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
+          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) > 0 || currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
             truthMatrix[i] = true;
           }
         }
@@ -124,7 +124,7 @@ public class Relation {
         }
         for(int x = 0; x < tuples.size(); x++) {
           currRow = tuples.get(x);
-          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) > 0) {
+          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) < 0) {
             truthMatrix[i] = true;
           }
         }
@@ -135,7 +135,7 @@ public class Relation {
         }
         for(int x = 0; x < tuples.size(); x++) {
           currRow = tuples.get(x);
-          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) < 0) {
+          if (currRow.getAttrib(attributeIndex).getValue().compareTo(tokens[helperInt+3]) > 0) {
             truthMatrix[i] = true;
           }
         }
