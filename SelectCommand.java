@@ -29,7 +29,9 @@ public class SelectCommand extends BaseCommand {
         for(int z = 0; z < currRelation.getSize(); z++) {
           currRow = currRelation.getAt(z);
 
-          if (currRelation.isTrue(currRow, formatTokens(tokens))) {
+          if(tokens.length == 4){
+            z++;
+          }else if (currRelation.isTrue(currRow, formatTokens(tokens))) {
             database.runBasicCommand("INSERT " + tokens[0] + formatAttributes(currRow) + ";");
           }
         }
