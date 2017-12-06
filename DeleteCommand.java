@@ -30,7 +30,9 @@ public class DeleteCommand extends BaseCommand {
       while(z < currRelation.getSize()) {
         currRow = currRelation.getAt(z);
 
-        if (currRelation.isTrue(currRow, tokens)) {
+        if(tokens.length == 1){
+          database.getRelations().get(index).getTuples().remove(z);
+        } else if (currRelation.isTrue(currRow, tokens)) {
           database.getRelations().get(index).getTuples().remove(z);
         } else z++;
       }
