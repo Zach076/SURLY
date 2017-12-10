@@ -98,7 +98,6 @@ public class InsertCommand extends BaseCommand {
   private boolean checkAttributeLength(Relation relation, String[] attributes) {
     if (attributes.length != relation.getDomain().size()) {
       // Incorrect amount of attributes
-//      System.out.println("Attributes length = " + attributes.length + " Domain size is " + relation.getDomain().size());
       System.out.println("ERRMSG4");
       return false;
     }

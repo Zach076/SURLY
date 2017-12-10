@@ -16,7 +16,7 @@ public class DeleteCommand extends BaseCommand {
       String relationName = tokens[0];
       int index = -1;
       index = database.findRelation(relationName);
-      LinkedList<Relation> relations = database.getRelations();
+      LinkedList<Relation> relations = SurlyDatabase.getRelations();
       if (index < 0) {
         System.out.println("The relation \'" + relationName + "\' doesn't exist");
         System.exit(0);
@@ -31,9 +31,9 @@ public class DeleteCommand extends BaseCommand {
         currRow = currRelation.getAt(z);
 
         if(tokens.length == 1){
-          database.getRelations().get(index).getTuples().remove(z);
+            SurlyDatabase.getRelations().get(index).getTuples().remove(z);
         } else if (currRelation.isTrue(currRow, tokens)) {
-          database.getRelations().get(index).getTuples().remove(z);
+            SurlyDatabase.getRelations().get(index).getTuples().remove(z);
         } else z++;
       }
     }

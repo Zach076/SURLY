@@ -40,7 +40,7 @@ public class ProjectCommand extends BaseCommand {
 			if (index == -1) {
 				System.out.println("Trying to PROJECT FROM \'" + relationName + "\' which doesn't exist");
 			} else {
-				return database.getRelations().get(index);
+				return SurlyDatabase.getRelations().get(index);
 			}
 		}
 		return null;
@@ -81,7 +81,7 @@ public class ProjectCommand extends BaseCommand {
 		if (index == -1) {
 			System.out.println("Trying to find a temporary relation but \'" + newRelName + "\' doesn't exist");
 		} else {
-			return database.getRelations().get(index);
+			return SurlyDatabase.getRelations().get(index);
 		}
 		return null;
 	}
@@ -123,7 +123,6 @@ public class ProjectCommand extends BaseCommand {
         String value = sourceTuples.get(j).getAttrib(srcIndex).getValue();
         attributes.append("\'" + sourceTuples.get(j).getAttrib(srcIndex).getValue() + "\' ");
       }
-      //System.out.println("INSERT " + tempName + " " + attributes.toString());
       database.runBasicCommand("INSERT " + tempName + " " + attributes.toString());
     }
     return true;

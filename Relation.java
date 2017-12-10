@@ -85,12 +85,8 @@ public class Relation {
           if (tokens[helperInt + 1].equals(domain.get(x).getName()))
             attributeIndex = x;
         }
-          //System.out.print(tokens[helperInt+3] + " ");
-          //System.out.print(currRow.getAttrib(attributeIndex).getValue());
           if (currRow.getAttrib(attributeIndex).getValue().equals(tokens[helperInt+3])) {
-            //System.out.print("*");
             truthMatrix[i] = true;
-          // System.out.println();
         }
       } else if (tokens[helperInt + 2].equals(">=")) {
         for(int x = 0; x < domain.size(); x++) {
@@ -134,21 +130,16 @@ public class Relation {
         } else truthMatrix[i] = true;
       }
     }
-    //for (int omp = 0; omp < truthMatrixLength; omp++) {
-    //  System.out.println(truthMatrix[omp]);
-    //}
 
     int nextOr;
 
     if(truthMatrixLength == 1) {
       return truthMatrix[0];
     } else {
-      //System.out.println("matrix length > 1");
       boolean foundOr = false;
       String[] operatorIndex = new String[truthMatrixLength - 1];
       for(int y = 1; y < truthMatrixLength; y++) {
         operatorIndex[y-1] = tokens[(y * 4) + 2];
-        //System.out.println(operatorIndex[y-1]);
       }
       //separate and groups by "or"
       //if any false is detected in an 'and' statement, set both to false to carry the operations boolean value to potential operators on both sides
@@ -158,7 +149,7 @@ public class Relation {
             if(operatorIndex[z].equals("OR")) {
               nextOr = z;
               for(int nu = y; nu < (z+1); nu++) {
-                if(truthMatrix[nu] == false) {
+                if(!truthMatrix[nu]) {
                   for(int bleh = y; bleh < (z+1); bleh++) {
                     truthMatrix[bleh] = false;
                   }

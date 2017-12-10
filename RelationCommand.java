@@ -34,7 +34,7 @@ public class RelationCommand extends BaseCommand {
       String tupleName;
       String datatype;
       int maxlen;
-      LinkedList<Relation> relations = database.getRelations();
+      LinkedList<Relation> relations = SurlyDatabase.getRelations();
 
       Relation currRelation = new Relation(relationName);
       relations.add(currRelation);

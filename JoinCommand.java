@@ -11,7 +11,6 @@ public class JoinCommand extends BaseCommand {
   private static final SurlyDatabase database = SurlyDatabase.getInstance();
   private final String name = "JOIN";
   public void run(String params) {
-    //System.out.println(params);
     String[] tokens = params.trim().split(",\\s|;|\\s");
     Relation[] relationsToJoin = parseRelations(tokens);
     String[] joiningAttributes = parseAttributesToJoinOn(tokens);
@@ -32,7 +31,7 @@ public class JoinCommand extends BaseCommand {
     for (int i = startofAttributes; i < onIndex; i++) {
       int index = database.findRelation(tokens[i]);
       if (index != -1) {
-        relationsToJoin[i - startofAttributes] = database.getRelations().get(index);
+        relationsToJoin[i - startofAttributes] = SurlyDatabase.getRelations().get(index);
       } else {
         System.out.println("Can't find relation \'" + tokens[i] + "\' to join on");
       }
@@ -61,11 +60,7 @@ public class JoinCommand extends BaseCommand {
     datatypes[0] = relationsToJoin[0].getDomain().get(indices[0]).getDatatype();
     datatypes[1] = relationsToJoin[1].getDomain().get(indices[1]).getDatatype();
 
-    if (!datatypes[0].equals(datatypes[1])) {
-      return false;
-    }
-    return true;
-
+    return datatypes[0].equals(datatypes[1]);
   }
 
   private Relation createTemporaryRelation(String newRelName, String[] joiningAttributes, Relation[] relationsToJoin) {
@@ -75,7 +70,7 @@ public class JoinCommand extends BaseCommand {
     if (index == -1) {
       System.out.println("Trying to find a temporary relation but \'" + newRelName + "\' doesn't exist");
     } else {
-      return database.getRelations().get(index);
+      return SurlyDatabase.getRelations().get(index);
     }
     return null;
   }

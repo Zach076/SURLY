@@ -29,7 +29,8 @@ public class SurlyParser {
         line = scan.nextLine();
         // If command is unknown let the user know
         if (!(checkForCommands(line, database) || line.equals(""))) {
-          System.out.println("SURLY doesn't understand the command \'" + line.substring(0, line.indexOf(' ')) + '\'');
+          Scanner commandscan = new Scanner(line);
+          System.out.println("SURLY doesn't understand the command \'" + commandscan.next() + '\'');
         }
       }
     }

@@ -5,7 +5,7 @@
   Fall 2017
   Main driver program
 */
-public class Surly {
+public class Main {
 
   public static void main(String[] args) {
     SurlyDatabase database = SurlyDatabase.getInstance();

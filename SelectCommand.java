@@ -17,7 +17,7 @@ public class SelectCommand extends BaseCommand {
       String relationName = tokens[3];
       int index = -1;
       index = database.findRelation(relationName);
-      LinkedList<Relation> relations = database.getRelations();
+      LinkedList<Relation> relations = SurlyDatabase.getRelations();
       if (index < 0) {
         System.out.println("The relation \'" + relationName + "\' doesn't exist");
       } else {
@@ -52,9 +52,9 @@ public class SelectCommand extends BaseCommand {
       returnValue = returnValue + " " + aRelation.getDomain().get(0).getDatatype();
       returnValue = returnValue + " " + aRelation.getDomain().get(0).getMaxLen();
       for(int i = 1; i < aRelation.getDomain().size(); i++) {
-        returnValue = returnValue + ", " + aRelation.getDomain().get(i).getName();
-        returnValue = returnValue + " " + aRelation.getDomain().get(i).getDatatype();
-        returnValue = returnValue + " " + aRelation.getDomain().get(i).getMaxLen();
+        returnValue += ", " + aRelation.getDomain().get(i).getName();
+        returnValue += " " + aRelation.getDomain().get(i).getDatatype();
+        returnValue += " " + aRelation.getDomain().get(i).getMaxLen();
       }
       returnValue = returnValue + ")";
       return returnValue;

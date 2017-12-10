@@ -17,11 +17,9 @@ public class DestroyCommand extends BaseCommand {
 
     for (int i = 0; i < tokens.length; i++) {
       relationName = tokens[i];
-      //System.out.println("Destroying " + tokens[i]);
       index = database.findRelation(relationName);
       if (index >= 0) {
-        database.getRelations().remove(index);
-
+        SurlyDatabase.getRelations().remove(index);
       } else {
         System.out.println("The relation \'" + relationName + "\' doesn't exist");
       }

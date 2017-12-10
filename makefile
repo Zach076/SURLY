@@ -6,7 +6,7 @@ JVM = java
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	Surly.java \
+	Main.java \
 	SurlyDatabase.java \
 	SurlyParser.java \
 	Relation.java \
@@ -24,7 +24,7 @@ CLASSES = \
 	ProjectCommand.java \
 	JoinCommand.java
 
-MAIN = Surly
+MAIN = Main
 default: classes
 
 classes: $(CLASSES:.java=.class)
