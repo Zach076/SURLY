@@ -53,7 +53,7 @@ public class Relation {
     int length = domain.indexOf(domain.getLast());
     int i = 0;
     while (i < length) {
-      maxlen = maxlen + "%" + domain.get(i).getMaxLen() + "s";
+      maxlen += "%" + domain.get(i).getMaxLen() + "s";
       i++;
     }
     return maxlen;
@@ -71,7 +71,7 @@ public class Relation {
 
   public boolean isTrue(Tuple currRow, String[] tokens) {
 
-    int truthMatrixLength = (int)((tokens.length - 2) / 4);
+    int truthMatrixLength = (tokens.length - 2) / 4;
     boolean[] truthMatrix = new boolean[truthMatrixLength];
 
     int truthSetIndex;
@@ -147,7 +147,6 @@ public class Relation {
         if(operatorIndex[y].equals("AND")) {
           for(int z = y; z < (truthMatrixLength - 1); z++) {
             if(operatorIndex[z].equals("OR")) {
-              nextOr = z;
               for(int nu = y; nu < (z+1); nu++) {
                 if(!truthMatrix[nu]) {
                   for(int bleh = y; bleh < (z+1); bleh++) {

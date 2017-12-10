@@ -8,11 +8,10 @@
 
 import java.util.Scanner;
 import java.io.*;
-import java.util.LinkedList;
 
 public class SurlyParser {
 
-  private static SurlyParser parser = new SurlyParser();
+  private static final SurlyParser parser = new SurlyParser();
   private SurlyParser() {
   }
 

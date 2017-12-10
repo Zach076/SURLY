@@ -62,6 +62,7 @@ public class RelationCommand extends BaseCommand {
     if (!(datatype.equals("NUM") || datatype.equals("CHAR"))) {
       System.out.println("Relation must have an attribute format of NUM or CHAR");
       database.runBasicCommand("DESTROY " + relation);
+      return false;
     }
     return true;
   }

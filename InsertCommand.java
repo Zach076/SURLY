@@ -13,7 +13,7 @@ public class InsertCommand extends BaseCommand {
 
   public void run(String params) {
 
-    LinkedList<Relation> relations = database.getRelations();
+    LinkedList<Relation> relations = SurlyDatabase.getRelations();
     String[] tokens = params.trim().split("\\s|;");
 
     String relationName = tokens[0];
@@ -89,10 +89,7 @@ public class InsertCommand extends BaseCommand {
     if (!checkAttributeLength(relation, attributes)) {
       return false;
     }
-    if (!checkDatatype(relation, attributes)){
-      return false;
-    }
-    return true;
+    return checkDatatype(relation, attributes);
   }
 
   private boolean checkAttributeLength(Relation relation, String[] attributes) {

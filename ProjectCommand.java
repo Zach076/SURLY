@@ -110,7 +110,7 @@ public class ProjectCommand extends BaseCommand {
 
 	private boolean populateTempRelation(Relation sourceRel, Relation tempRel, String[] tupleNames) {
     String tempName = tempRel.getName();
-    int srcIndex = 0;
+    int srcIndex;
 
     LinkedList<Tuple> sourceTuples = sourceRel.getTuples();
     for (int j = 0; j < sourceTuples.size(); j++) {

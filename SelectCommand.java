@@ -15,7 +15,7 @@ public class SelectCommand extends BaseCommand {
       //System.out.println(params);
       String[] tokens = params.trim().split("\\s|;");
       String relationName = tokens[3];
-      int index = -1;
+      int index;
       index = database.findRelation(relationName);
       LinkedList<Relation> relations = SurlyDatabase.getRelations();
       if (index < 0) {

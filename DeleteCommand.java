@@ -14,7 +14,7 @@ public class DeleteCommand extends BaseCommand {
       //System.out.println(params);
       String[] tokens = params.trim().split("\\s|;");
       String relationName = tokens[0];
-      int index = -1;
+      int index;
       index = database.findRelation(relationName);
       LinkedList<Relation> relations = SurlyDatabase.getRelations();
       if (index < 0) {

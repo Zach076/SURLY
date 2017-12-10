@@ -99,7 +99,7 @@ public class JoinCommand extends BaseCommand {
   private boolean populateTempRelation(Relation[] joinedRels, Relation tempRel, String[] joiningAttributes) {
     String[] tempAttributes = getTempAttributes(tempRel);
     String tempName = tempRel.getName();
-    int srcIndex = 0;
+    int srcIndex;
 
     LinkedList<Tuple> firstRelTuples = joinedRels[0].getTuples();
     LinkedList<Tuple> secondRelTuples = joinedRels[1].getTuples();
@@ -112,7 +112,7 @@ public class JoinCommand extends BaseCommand {
         if (joiningValue1.equals(joiningValue2)) {
           StringBuilder attributes = new StringBuilder();
           for (int k = 0; k < tempAttributes.length; k++) {
-            String value = "";
+            String value;
             if ((srcIndex = joinedRels[0].findDomainNode(tempAttributes[k])) != -1) {
               value = firstRelTuples.get(i).getAttrib(srcIndex).getValue();
             } else if ((srcIndex = joinedRels[1].findDomainNode(tempAttributes[k])) != -1) {

@@ -9,7 +9,7 @@
 import java.util.LinkedList;
 
 public class Tuple {
-  private LinkedList<Attribute> attributes = new LinkedList<Attribute>();
+  private final LinkedList<Attribute> attributes = new LinkedList<Attribute>();
 
   public LinkedList<Attribute> getAttributes() {
     return attributes;

@@ -5,7 +5,6 @@
   Fall 2017
   Destroy command for surly database
 */
-import java.util.LinkedList;
 
 public class DestroyCommand extends BaseCommand {
   private static final SurlyDatabase database = SurlyDatabase.getInstance();
@@ -13,7 +12,7 @@ public class DestroyCommand extends BaseCommand {
   public void run(String params) {
     String[] tokens = params.trim().split("\\s|;");
     String relationName;
-    int index = -1;
+    int index;
 
     for (int i = 0; i < tokens.length; i++) {
       relationName = tokens[i];
