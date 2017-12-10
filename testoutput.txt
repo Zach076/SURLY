@@ -1,6 +1,15 @@
 SURLY doesn't understand the command 'relation'
-Invalid relation name 'COURSE'
-The COURSE relation already exists
+Relation 'COURSE' doesn't exist
+Relation COURSE's attributes are formatted incorrectly
+Max length of relation COURSE isn't a number
+
+
+COURSE
+    CNUM|                         TITLE|CREDITS|
+
+A in A is not a 'NUM'
+
+COURSE
     CNUM|                         TITLE|CREDITS|
  CSCI141|        COMPUTER PROGRAMMING I|      4|
  CSCI145| COMP PROG & LINER DATA STRUCT|      4|
@@ -10,7 +19,8 @@ The COURSE relation already exists
  CSCI330|              DATABASE SYSTEMS|      4|
  CSCI345|        OBJECT ORIENTED DESIGN|      4|
 
-    CNUM|    PNUM|
+PREREQ
+    CNBR|    PNBR|
  CSCI141| MATH112|
  CSCI145| MATH115|
  CSCI145| CSCI141|
@@ -22,7 +32,8 @@ The COURSE relation already exists
  CSCI330| CSCI241|
  CSCI345| CSCI241|
 
-    CNUM|SECTION|STARTHOUR|ENDHOUR| DAYS|      ROOM|          INSTRUCTOR|
+OFFERING
+     CID|SECTION|STARTHOUR|ENDHOUR| DAYS|      ROOM|          INSTRUCTOR|
  CSCI141|  27921|    13:00|  13:50|  MWF|     CF115|         JAGODZINSKI|
  CSCI241|  27922|     9:00|   9:50|  MWF|     AW205|               ISLAM|
  CSCI241|  27935|    11:00|  11:50|  MWF|     AW403|               BOVER|
@@ -30,18 +41,110 @@ The COURSE relation already exists
  CSCI330|  27974|    12:00|  12:50| MTWF|     CF314|              DENEKE|
  CSCI330|  27977|    14:00|  14:50| MTWF|     CF316|              DENEKE|
 
+STAFF
                 NAME|    SPOUSE| RANK|CAMPUSADDR|EXTENSION|
              GREGORY|       DON|  SEC|       A8C|     0030|
               DENEKE|       WHO|ASSIS|    CF 479|     3769|
 
+INTERESTS
                 NAME|                      INTEREST|
               DENEKE|                            AI|
               DENEKE|                          DBMS|
 
+DEPT
                 NAME|DEPT|
               DENEKE|CSCI|
                ISLAM|CSCI|
              GREGORY|MATH|
 
-THISSHOULDEXCEEDLENGTH exceeds maxlength of 8
+
+DESTROYABLE
+    CNUM|                         TITLE|CREDITS|
+
+The relation 'NONEXISTENTRELATION' doesn't exist
+
+
+P1
+CREDITS|                         TITLE|
+      4|        COMPUTER PROGRAMMING I|
+      4| COMP PROG & LINER DATA STRUCT|
+      4|               DATA STRUCTURES|
+      5|              FORMAL LANGUAGES|
+      4|                    ALGORITHMS|
+      4|              DATABASE SYSTEMS|
+      4|        OBJECT ORIENTED DESIGN|
+
+COURSE
+    CNUM|                         TITLE|CREDITS|
+ CSCI141|        COMPUTER PROGRAMMING I|      4|
+ CSCI145| COMP PROG & LINER DATA STRUCT|      4|
+ CSCI241|               DATA STRUCTURES|      4|
+ CSCI301|              FORMAL LANGUAGES|      5|
+ CSCI305|                    ALGORITHMS|      4|
+ CSCI330|              DATABASE SYSTEMS|      4|
+ CSCI345|        OBJECT ORIENTED DESIGN|      4|
+
+
+T1
+    CNUM|                         TITLE|CREDITS|    CNBR|
+ CSCI141|        COMPUTER PROGRAMMING I|      4| CSCI145|
+ CSCI145| COMP PROG & LINER DATA STRUCT|      4| CSCI241|
+ CSCI145| COMP PROG & LINER DATA STRUCT|      4| CSCI301|
+ CSCI241|               DATA STRUCTURES|      4| CSCI305|
+ CSCI241|               DATA STRUCTURES|      4| CSCI330|
+ CSCI241|               DATA STRUCTURES|      4| CSCI345|
+ CSCI301|              FORMAL LANGUAGES|      5| CSCI305|
+
+
+T2
+    CNUM|                         TITLE|CREDITS|    CNBR|
+ CSCI241|               DATA STRUCTURES|      4| CSCI305|
+ CSCI241|               DATA STRUCTURES|      4| CSCI330|
+ CSCI241|               DATA STRUCTURES|      4| CSCI345|
+
+
+T3
+CREDITS|    CNUM|
+      4| CSCI241|
+      4| CSCI241|
+      4| CSCI241|
+
+ERRMSG1
+
+PREREQ
+    CNBR|    PNBR|
+ CSCI141| MATH112|
+ CSCI145| MATH115|
+ CSCI145| CSCI141|
+ CSCI241| MATH124|
+ CSCI241| CSCI145|
+ CSCI301| CSCI145|
+ CSCI305| CSCI301|
+ CSCI305| CSCI241|
+ CSCI330| CSCI241|
+ CSCI345| CSCI241|
+ CSCI330|THISSHOU|
+
+ERRMSG3
+
+OFFERING
+     CID|SECTION|STARTHOUR|ENDHOUR| DAYS|      ROOM|          INSTRUCTOR|
+ CSCI141|  27921|    13:00|  13:50|  MWF|     CF115|         JAGODZINSKI|
+ CSCI241|  27922|     9:00|   9:50|  MWF|     AW205|               ISLAM|
+ CSCI241|  27935|    11:00|  11:50|  MWF|     AW403|               BOVER|
+ CSCI305|  27950|    14:00|  14:50| MTWF|     AW403|                 LIU|
+ CSCI330|  27974|    12:00|  12:50| MTWF|     CF314|              DENEKE|
+ CSCI330|  27977|    14:00|  14:50| MTWF|     CF316|              DENEKE|
+ CSCI141|  12345|    13:00|  13:50|  MWF|     CF115|         JAGODZINSKI|
+
 ERRMSG4
+
+COURSE
+    CNUM|                         TITLE|CREDITS|
+ CSCI141|        COMPUTER PROGRAMMING I|      4|
+ CSCI145| COMP PROG & LINER DATA STRUCT|      4|
+ CSCI241|               DATA STRUCTURES|      4|
+ CSCI301|              FORMAL LANGUAGES|      5|
+ CSCI305|                    ALGORITHMS|      4|
+ CSCI330|              DATABASE SYSTEMS|      4|
+ CSCI345|        OBJECT ORIENTED DESIGN|      4|
